@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: 45961534498b312499553b060eb4cfa4
+  - enabled: 1
+    path: Assets/Scenes/MineSweeper.unity
+    guid: 570253b5ab146dd47a6b93ca3321939a
+  - enabled: 1
+    path: Assets/Scenes/LifeGame.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Bingo.unity
+    guid: af0626e7c9acb594b8e7e8e43d4456dd
+  - enabled: 1
+    path: Assets/Scenes/Reversi.unity
+    guid: 1888c9f6138069041be6116a19012385
   m_configObjects: {}

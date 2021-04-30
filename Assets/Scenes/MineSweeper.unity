@@ -387,3 +387,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_camera: {fileID: 354947377}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
