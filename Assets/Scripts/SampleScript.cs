@@ -130,12 +130,19 @@ public class SampleScript : MonoBehaviour
             {
                 if (!RightCubeIndexSearch(m_selectIndex))
                 {
-                    while (!cubes[m_selectIndex - 1].activeSelf)
+                    if (cubes[m_selectIndex].activeSelf)
                     {
+                        while (!cubes[m_selectIndex - 1].activeSelf)
+                        {
+                            m_selectIndex--;
+                        }
                         m_selectIndex--;
+                        cubes[m_selectIndex].GetComponent<Renderer>().material.color = Color.red;
                     }
-                    m_selectIndex--;
-                    cubes[m_selectIndex].GetComponent<Renderer>().material.color = Color.red;
+                    else
+                    {
+                        return;
+                    }
                 }
                 else if (!LeftCubeIndexSearch(m_selectIndex))
                 {
@@ -150,6 +157,24 @@ public class SampleScript : MonoBehaviour
         }
     }
 
+    void Example()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            m_selectIndex--;
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            m_selectIndex++;
+        }
+
+        
+        for (int i = 0; i < cubes.Length; i++)
+        {
+            var renderer = cubes[i].GetComponent<Renderer>();
+            renderer.material.color = (i == m_selectIndex ? Color.red : Color.white);
+        }
+    }
     bool RightCubeIndexSearch(int currentIndex)
     {
         for (int i = currentIndex + 1; i < cubes.Length; i++)

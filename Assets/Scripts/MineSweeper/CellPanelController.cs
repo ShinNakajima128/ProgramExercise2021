@@ -43,10 +43,7 @@ public class CellPanelController : MonoBehaviour
             targetcell = null;
         }
     }
-    void SetCellStates(MineSweeperSystem.CellStates State)
-    {
-        
-    }
+    
     void Open()
     {
 
