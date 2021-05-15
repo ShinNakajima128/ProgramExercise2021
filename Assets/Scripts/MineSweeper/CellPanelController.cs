@@ -10,10 +10,7 @@ public class CellPanelController : MonoBehaviour
     [SerializeField] LayerMask targetLayer;
     float maxDistance = 30.0f;
 
-    void Start()
-    {
-    }
-
+    
     void Update()
     {
         SelectCell();

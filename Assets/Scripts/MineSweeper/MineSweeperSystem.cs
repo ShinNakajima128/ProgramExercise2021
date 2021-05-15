@@ -8,10 +8,17 @@ public class MineSweeperSystem : MonoBehaviour
     [SerializeField] int m_fieldSizeX = 10;             
     [SerializeField] int m_fieldSizeY = 10;
     [SerializeField] GameObject m_cellPrefab = null;
-    [SerializeField] Transform m_field = null;
+    [SerializeField] GameObject m_coverPrefab = null;
+    [SerializeField] Transform m_cellField = null;
+    [SerializeField] Transform m_coverField = null;
     [SerializeField] int m_mineAmount = 20;
+    [SerializeField] Image m_coverImage = null;
+    GameObject targetCover;
     Cell m_cellStates;
+    Cover m_coverStates;
+    RaycastHit hit;
     GameObject[,] fieldCellObjects;
+    public GameObject[,] fieldCoverObjects;
 
 
     void Start()
@@ -23,11 +30,19 @@ public class MineSweeperSystem : MonoBehaviour
             for (int n = 0; n < m_fieldSizeX; n++)
             {
                 var cell = Instantiate(m_cellPrefab);
+                var cover = Instantiate(m_coverPrefab);
+
                 m_cellStates = cell.GetComponent<Cell>();
+                m_coverStates = cover.GetComponent<Cover>();
                 fieldCellObjects[n, i] = cell;
-                cell.transform.SetParent(m_field, false);
+                fieldCoverObjects[n, i] = cover;
+
+                cell.transform.SetParent(m_cellField);
                 cell.transform.position = new Vector3(-0.5f + n, 0, -0.5f + i);
-                
+
+                cover.transform.SetParent(m_coverField);
+                cover.transform.position = new Vector3(-0.5f + n, 0, -0.5f + i);
+
                 if (m_mineAmount > 0)
                 {
                     m_cellStates.CellState = (Cell.CellStates)(Random.Range(-1,1));
@@ -57,8 +72,43 @@ public class MineSweeperSystem : MonoBehaviour
 
     void Update()
     {
-        
+        SelectCover();
     }
 
-    
+    void SelectCover()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            targetCover = hit.collider.gameObject;
+            targetCover.GetComponent<Cover>().CoverState = Cover.CoverStates.Select;
+
+            Debug.Log(targetCover);
+            if (m_coverImage.enabled && Input.GetMouseButtonDown(0))
+            {
+                targetCover.GetComponent<Cover>().CoverState = Cover.CoverStates.Open;
+                Debug.Log(targetCover);
+            }
+        }
+        else
+        {
+            if (!targetCover) return;
+            targetCover.GetComponent<Cover>().CoverState = Cover.CoverStates.Close;
+            Debug.Log(targetCover);
+        }
+    }
+
+    public void CheckCovers(GameObject cover) 
+    {
+        for (int i = 0; i < m_fieldSizeY; i++)
+        {
+            for (int n = 0; n < m_fieldSizeX; n++)
+            {
+                Cover CheckCover = cover.GetComponent<Cover>();
+
+
+            }
+        }
+    }
 }
