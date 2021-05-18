@@ -52,7 +52,7 @@ public class Cover : MonoBehaviour
         }
     }
 
-    public void Open()
+    public void Open(GameObject selectCover)
     {
         m_coverState = CoverStates.Open;
     }

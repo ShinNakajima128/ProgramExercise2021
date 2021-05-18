@@ -7,6 +7,9 @@ public class Cell : MonoBehaviour
 {
     [SerializeField] Text m_view = null;
     [SerializeField] CellStates m_cellStates = CellStates.None;
+    [SerializeField] Image m_bg = null;
+    public int m_indexNum = 0;
+    public bool isOpened = false;
 
     public CellStates CellState
     {
@@ -32,29 +35,46 @@ public class Cell : MonoBehaviour
         Mine = -1,
     }
 
+    private void Start()
+    {
+        m_bg.color = new Color(0, 1, 1);
+    }
 
     private void OnValidate()
     {
         OnCellStateChanged();
     }
 
-    private void OnCellStateChanged()
+    void OnCellStateChanged()
     {
         if (m_view == null) return;
 
-        if (m_cellStates == CellStates.None)
+        if (isOpened)
         {
-            m_view.text = "";
-        }
-        else if (m_cellStates == CellStates.Mine)
-        {
-            m_view.text = "X";
-            m_view.color = Color.red;
-        }
-        else
-        {
-            m_view.text = ((int)m_cellStates).ToString();
-            m_view.color = Color.blue;
-        }
+            if (m_cellStates == CellStates.None)
+            {
+                m_view.text = "";
+            }
+            else if (m_cellStates == CellStates.Mine)
+            {
+                m_view.text = "X";
+                m_view.color = Color.red;
+            }
+            else
+            {
+                m_view.text = ((int)m_cellStates).ToString();
+                m_view.color = Color.blue;
+            }
+        }      
+    }
+
+    public void Open()
+    {
+        isOpened = true;
+
+        if (CellState == CellStates.Mine) MineSweeper.InGame = false;
+        MineSweeper.CheckCells(this);
+        OnCellStateChanged();
+        m_bg.color = new Color(1, 1, 1);
     }
 }
