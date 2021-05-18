@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 42388088832764021}
   - component: {fileID: 6642757187681379228}
   - component: {fileID: 8378228718742400076}
+  - component: {fileID: -761912843288857025}
   m_Layer: 5
   m_Name: Cell
   m_TagString: Untagged
@@ -224,5 +225,33 @@ MonoBehaviour:
   m_view: {fileID: 348235922640548377}
   m_cellStates: 0
   m_bg: {fileID: 42388088832764021}
-  m_mss: {fileID: 8666092466556789895, guid: 64db00e7c2ee05b4ea87fdb56de866ca, type: 3}
+  m_indexNum: 0
   isOpened: 0
+--- !u!114 &-761912843288857025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174019695952455665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8378228718742400076}
+          m_MethodName: Flag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

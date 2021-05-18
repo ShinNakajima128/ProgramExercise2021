@@ -10,6 +10,7 @@ public class Cell : MonoBehaviour
     [SerializeField] Image m_bg = null;
     public int m_indexNum = 0;
     public bool isOpened = false;
+    bool isFlaged = false;
 
     public CellStates CellState
     {
@@ -76,5 +77,27 @@ public class Cell : MonoBehaviour
         MineSweeper.CheckCells(this);
         OnCellStateChanged();
         m_bg.color = new Color(1, 1, 1);
+    }
+
+    public void Flag()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (isFlaged)
+            {
+                Debug.Log("旗を取り除きました");
+                m_bg.color = new Color(0, 1, 1);
+                m_view.text = "";
+                isFlaged = false;
+            }
+            else
+            {
+                Debug.Log("旗を立てました");
+                m_bg.color = new Color(1, 1, 0);
+                m_view.text = "B";
+                m_view.color = Color.green;
+                isFlaged = true;
+            } 
+        }
     }
 }
