@@ -74,6 +74,7 @@ public class Cell : MonoBehaviour
         isOpened = true;
 
         if (CellState == CellStates.Mine) MineSweeper.InGame = false;
+        MineSweeper._closeCellCount--;
         MineSweeper.CheckCells(this);
         OnCellStateChanged();
         m_bg.color = new Color(1, 1, 1);
@@ -93,9 +94,9 @@ public class Cell : MonoBehaviour
             else
             {
                 Debug.Log("旗を立てました");
-                m_bg.color = new Color(1, 1, 0);
+                m_bg.color = new Color(1, 0, 0);
                 m_view.text = "B";
-                m_view.color = Color.green;
+                m_view.color = Color.yellow;
                 isFlaged = true;
             } 
         }

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4627955857358382605}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99, y: 0.99, z: 0.99}
   m_Children:
   - {fileID: 4627955857634432216}
   - {fileID: 4627955858880478957}
@@ -45,8 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4159b08ec7d90c42af426a1ebf16d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube1: {fileID: 4627955858880478956}
-  cube2: {fileID: 4627955857634432212}
+  m_cellStates: 0
+  m_deadCell: {fileID: 4627955858880478956}
+  m_aliveCell: {fileID: 4627955857634432212}
+  cellNum: 0
+  NeighborCells: 0
 --- !u!1 &4627955857634432212
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +61,6 @@ GameObject:
   - component: {fileID: 4627955857634432216}
   - component: {fileID: 4627955857634432215}
   - component: {fileID: 4627955857634432214}
-  - component: {fileID: 4627955857634432213}
   m_Layer: 0
   m_Name: Birth
   m_TagString: Untagged
@@ -127,19 +129,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4627955857634432213
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4627955857634432212}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4627955858880478956
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +140,6 @@ GameObject:
   - component: {fileID: 4627955858880478957}
   - component: {fileID: 4627955858880478960}
   - component: {fileID: 4627955858880478959}
-  - component: {fileID: 4627955858880478958}
   m_Layer: 0
   m_Name: Die
   m_TagString: Untagged
@@ -220,16 +208,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4627955858880478958
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4627955858880478956}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
