@@ -11,6 +11,7 @@ public class LifeGameSystem : MonoBehaviour
     [SerializeField] Text m_aliveCells;
     [SerializeField] Text m_generationText = null;
     public static LifeGameCell[,] lifecells;
+    public static float m_timer = 0;
     int cellstateNum = 0;
     public static int allCells;
     int generationNum = 1;
@@ -41,7 +42,6 @@ public class LifeGameSystem : MonoBehaviour
                 else if (cellstateNum == 0)
                 {
                     cell.CellState = LifeGameCell.CellStates.alive;
-                    //allCells++;
                 }
             }
         }
@@ -49,109 +49,111 @@ public class LifeGameSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) generationNum++;
+        if (Input.GetKey(KeyCode.Space))
+        {
+            LifeActivity();
+            generationNum++;
+        }
+        
         if (m_aliveCells != null) m_aliveCells.text = "生存しているセル" + allCells.ToString() + "個";
         if (m_generationText != null) m_generationText.text = generationNum.ToString() + "世代";
     }
 
-    public static void LifeActivity(LifeGameCell cell)
+    void LifeActivity()
     {
         for (int i = 0; i < m_rows; i++)
         {
             for (int n = 0; n < m_columns; n++)
             {
-                if (lifecells[n, i].cellNum == cell.cellNum)
-                {
-                    GetNeighborCells(i, n, cell.NeighborCells);
-                    break;
-                }
+                GetNeighborCells(n, i, lifecells[n, i]);
             }
         }
     }
-    public static void GetNeighborCells(int x, int y, int NeighborCells)
+
+    void GetNeighborCells(int x, int y, LifeGameCell cell)
     {
-        NeighborCells = 0;
+        cell.neighborCells = 0;
 
 	    if (x == 0 && y == 0)
         {
-            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
         }
         else if (x == 0 && y == m_rows - 1)
         {
-            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
         }
         else if (x == 0 && y > 0 && y < m_rows - 1)
         {
-            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
 
         }
         else if (x == m_columns - 1 && y == 0)
         {
-            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
 
         }
         else if (x == m_columns - 1 && y == m_rows - 1)
         {
-            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
 
         }
         else if (x == m_columns - 1 && y > 0 && y < m_rows - 1)
         {
-            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
 
         }
         else if (x > 0 && x < m_columns - 1 && y > 0 && y < m_rows - 1)
         {
-            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
 
         }
         else if (x > 0 && x < m_columns - 1 && y == 0)
         {
-            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y + 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
 
         }
         else if (x > 0 && x < m_columns - 1 && y == m_rows - 1)
         {
-            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
-            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) NeighborCells++;
+            if (lifecells[x + 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x + 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x - 1, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
+            if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
         }
     }
