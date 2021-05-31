@@ -25,18 +25,13 @@ public class LifeGameCell : MonoBehaviour
         alive
     }
 
-    void awake()
-    {
-        m_cellStates = CellStates.dead;
-    }
-
     void LateUpdate()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            CellStateChange();
-        }
-
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    CellStateChange();
+        //}
+        CellStateChange();
         switch (m_cellStates)
         {
             case CellStates.dead:

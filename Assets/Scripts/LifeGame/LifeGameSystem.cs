@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LifeGameSystem : MonoBehaviour
 {
-    public static int m_columns = 64;
-    public static int m_rows = 36;
+    public static int m_columns = 128;
+    public static int m_rows = 72;
     [SerializeField] LifeGameCell m_lifeGameCellPrefab = null;
     [SerializeField] Text m_aliveCells;
     [SerializeField] Text m_generationText = null;
@@ -31,7 +32,7 @@ public class LifeGameSystem : MonoBehaviour
                 var cell = Instantiate(m_lifeGameCellPrefab);
                 lifecells[n, i] = cell;
                 cell.transform.position = new Vector3(-0.5f + n, -0.5f + i, 0);
-                cellstateNum = Random.Range(0, 5);
+                cellstateNum = Random.Range(0, 4);
                 cell.cellNum = (i * 10) + n;
 
                 if (cellstateNum > 0)
@@ -49,12 +50,13 @@ public class LifeGameSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            LifeActivity();
-            generationNum++;
-        }
-        
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    LifeActivity();
+        //    generationNum++;
+        //}
+        LifeActivity();
+        generationNum++;
         if (m_aliveCells != null) m_aliveCells.text = "生存しているセル" + allCells.ToString() + "個";
         if (m_generationText != null) m_generationText.text = generationNum.ToString() + "世代";
     }
@@ -156,5 +158,10 @@ public class LifeGameSystem : MonoBehaviour
             if (lifecells[x, y - 1].CellState == LifeGameCell.CellStates.alive) cell.neighborCells++;
 
         }
+    }
+
+    public void GameRetry(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
