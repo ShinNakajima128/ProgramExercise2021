@@ -257,9 +257,9 @@ public class BingoSystem : MonoBehaviour
     public void LowerLeftCheck(int x, int y)
     {
         int left = x - 1;
-        int bottom = y - 1;
+        int bottom = y + 1;
 
-        if (left < m_rows && bottom < m_columns)
+        if (left > 0 && bottom < m_columns)
         {
             if (bingocells[left, bottom].isCellOpened)
             {
