@@ -27,10 +27,6 @@ public class LifeGameCell : MonoBehaviour
 
     void LateUpdate()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    CellStateChange();
-        //}
         CellStateChange();
         switch (m_cellStates)
         {
@@ -67,13 +63,10 @@ public class LifeGameCell : MonoBehaviour
         else if (CellState == CellStates.alive && neighborCells == 2)
         {
             return;
-            //CellState = CellStates.alive;
-            //LifeGameSystem.allCells++;
         }
         else if (CellState == CellStates.alive && neighborCells == 3)
         {
             return;
-            //CellState = CellStates.alive;
         }
         else
         {

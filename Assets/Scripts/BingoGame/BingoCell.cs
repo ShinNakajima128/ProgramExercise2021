@@ -16,7 +16,7 @@ public class BingoCell : MonoBehaviour
         get => bingoCellState;
         set
         {
-            bingoCellState = value;        
+            bingoCellState = value;
         }
     }
 

@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8212120257803951810
 Transform:
   m_ObjectHideFlags: 0
@@ -548,6 +548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6697548185698086045}
   - component: {fileID: 453305382850803688}
+  - component: {fileID: 8401681146666946007}
   m_Layer: 0
   m_Name: ReversiCell
   m_TagString: Untagged
@@ -589,3 +590,17 @@ MonoBehaviour:
   m_blackCell: {fileID: 6697548184537111225}
   m_board: {fileID: 6697548184158589053}
   m_reversiCellStates: 0
+  isPlaceable: 0
+--- !u!65 &8401681146666946007
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697548185698086018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.18496287, z: 1}
+  m_Center: {x: 0, y: 0.06177765, z: 0}
