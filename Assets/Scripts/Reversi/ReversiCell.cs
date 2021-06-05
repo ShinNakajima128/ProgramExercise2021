@@ -65,14 +65,45 @@ public class ReversiCell : MonoBehaviour
             isWhitePlaceable = false;
             ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.White;
             ReversiSystem.m_turnState = ReversiSystem.TurnState.BlackTurn;
+            TurnOverWhite();
             ReversiSystem.isChecked = true;
+            
         }
         else if (ReversiSystem.reversiCells[m_cell_X, m_cell_Y].isBlackPlaceable)
         {
             isBlackPlaceable = false;
             ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.Black;
             ReversiSystem.m_turnState = ReversiSystem.TurnState.WhiteTurn;
+            TurnOverBlack();
             ReversiSystem.isChecked = true;
+            
         }
+    }
+
+    public void TurnOverWhite()
+    {
+        foreach (var cell in ReversiSystem.turnOverList)
+        {
+            cell.ReversiCellState = ReversiCellStates.White;
+        }
+
+        foreach (var cell in ReversiSystem.PlaceableList)
+        {
+            cell.isWhitePlaceable = false;
+        }
+        ReversiSystem.PlaceableList.Clear();
+    }
+    public void TurnOverBlack()
+    {
+        foreach (var cell in ReversiSystem.turnOverList)
+        {
+            cell.ReversiCellState = ReversiCellStates.Black;
+        }
+
+        foreach (var cell in ReversiSystem.PlaceableList)
+        {
+            cell.isBlackPlaceable = false;
+        }
+        ReversiSystem.PlaceableList.Clear();
     }
 }
