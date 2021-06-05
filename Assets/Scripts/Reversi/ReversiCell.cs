@@ -8,7 +8,8 @@ public class ReversiCell : MonoBehaviour
     [SerializeField] GameObject m_blackCell = null;
     [SerializeField] GameObject m_board = null;
     [SerializeField] ReversiCellStates m_reversiCellStates = ReversiCellStates.None;
-    public bool isPlaceable = false;
+    public bool isWhitePlaceable = false;
+    public bool isBlackPlaceable = false;
     public int m_cell_X = 0;
     public int m_cell_Y = 0;
 
@@ -46,9 +47,9 @@ public class ReversiCell : MonoBehaviour
                 break;
         }
 
-        if (isPlaceable)
+        if (isWhitePlaceable || isBlackPlaceable)
         {
-            m_board.GetComponent<Renderer>().material.color = new Color(0, 0.8f, 0.6f);
+            m_board.GetComponent<Renderer>().material.color = new Color(0.6f, 0.6f, 0.6f);
         }
         else
         {
@@ -59,7 +60,19 @@ public class ReversiCell : MonoBehaviour
     void OnMouseDown()
     {
         Debug.Log(m_cell_X + "," + m_cell_Y);
-
-        
+        if (ReversiSystem.reversiCells[m_cell_X, m_cell_Y].isWhitePlaceable)
+        {
+            isWhitePlaceable = false;
+            ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.White;
+            ReversiSystem.m_turnState = ReversiSystem.TurnState.BlackTurn;
+            ReversiSystem.isChecked = true;
+        }
+        else if (ReversiSystem.reversiCells[m_cell_X, m_cell_Y].isBlackPlaceable)
+        {
+            isBlackPlaceable = false;
+            ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.Black;
+            ReversiSystem.m_turnState = ReversiSystem.TurnState.WhiteTurn;
+            ReversiSystem.isChecked = true;
+        }
     }
 }

@@ -323,6 +323,9 @@ MonoBehaviour:
   m_ReversiCellPrefab: {fileID: 453305382850803688, guid: 918a0ebb79696104692b3ea7fb10bc5a,
     type: 3}
   m_parent: {fileID: 188173270}
+  m_turnText: {fileID: 51028470}
+  m_whiteCellNumText: {fileID: 786375282}
+  m_blackCellNumText: {fileID: 286604181}
 --- !u!4 &188173272
 Transform:
   m_ObjectHideFlags: 0
