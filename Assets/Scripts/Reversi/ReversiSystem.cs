@@ -51,18 +51,24 @@ public class ReversiSystem : MonoBehaviour
                 if (isChecked)
                 {
                     WhiteThinking();
+                    PieceNumCheck();
                     isChecked = false;
                     Debug.Log("白のチェック完了");
                     m_turnText.text = "白のターン";
+                    m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
+                    m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
                 }
                 break;
             case TurnState.BlackTurn:
                 if (isChecked)
                 {
                     BlackThinking();
+                    PieceNumCheck();
                     isChecked = false;
                     Debug.Log("黒のチェック完了");
                     m_turnText.text = "黒のターン";
+                    m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
+                    m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
                 }
                 break;
             case TurnState.EndGame:
@@ -91,10 +97,6 @@ public class ReversiSystem : MonoBehaviour
     public void BlackThinking()
     {
 
-    }
-
-    public void PutCell()
-    {
     }
 
     public void CheckCells(int x, int y, ReversiCell.ReversiCellStates states)
@@ -136,6 +138,31 @@ public class ReversiSystem : MonoBehaviour
         else if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
         {
 
+        }
+    }
+
+    public void PieceNumCheck()
+    {
+        whiteCellTotal = 0;
+        blackCellTotal = 0;
+
+        for (int i = 0; i < m_rows; i++)
+        {
+            for (int n = 0; n < m_columns; n++)
+            {
+                if (reversiCells[n, i].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    whiteCellTotal++;
+                }
+                else if (reversiCells[n, i].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    blackCellTotal++;
+                }
+                else
+                {
+                    continue;
+                }
+            }
         }
     }
 }
