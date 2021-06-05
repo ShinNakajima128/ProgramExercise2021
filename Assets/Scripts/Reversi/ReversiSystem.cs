@@ -13,6 +13,7 @@ public class ReversiSystem : MonoBehaviour
     [SerializeField] Text m_whiteCellNumText = null;
     [SerializeField] Text m_blackCellNumText = null;
     [SerializeField] Text m_winnerText = null;
+    [SerializeField] GameObject m_FinishedPanel = null;
     public static ReversiCell[,] reversiCells = new ReversiCell[m_columns, m_rows];
     public static TurnState m_turnState = TurnState.WhiteTurn;
     public static bool isChecked = true;
@@ -25,8 +26,8 @@ public class ReversiSystem : MonoBehaviour
     public static List<ReversiCell> BturnOverList = new List<ReversiCell>();
     public static List<ReversiCell> TturnOverList = new List<ReversiCell>();
     public static List<ReversiCell> PlaceableList = new List<ReversiCell>();
-    int whiteCellTotal = 0;
-    int blackCellTotal = 0;
+    int whiteCellTotal = 2;
+    int blackCellTotal = 2;
 
     public enum TurnState
     {
@@ -37,6 +38,8 @@ public class ReversiSystem : MonoBehaviour
 
     void Start()
     {
+        m_winnerText.enabled = false;
+
         for (int i = 0; i < m_rows; i++)
         {
             for (int n = 0; n < m_columns; n++)
@@ -55,6 +58,11 @@ public class ReversiSystem : MonoBehaviour
 
     void Update()
     {
+        if (whiteCellTotal + blackCellTotal == m_columns * m_rows || whiteCellTotal == 0 || blackCellTotal == 0)
+        {
+            m_turnState = TurnState.EndGame;
+        }
+
         switch (m_turnState)
         {
             case TurnState.WhiteTurn:
@@ -67,7 +75,6 @@ public class ReversiSystem : MonoBehaviour
                     m_turnText.text = "白のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
                     m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
-                    if (whiteCellTotal + blackCellTotal == m_columns * m_rows) m_turnState = TurnState.EndGame;
                     if (PlaceableList.Count == 0) { m_turnState = TurnState.BlackTurn; isChecked = true; }
                 }
                 break;
@@ -80,13 +87,24 @@ public class ReversiSystem : MonoBehaviour
                     Debug.Log("黒のチェック完了");
                     m_turnText.text = "黒のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
-                    m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
-                    if (whiteCellTotal + blackCellTotal == m_columns * m_rows) m_turnState = TurnState.EndGame;
+                    m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";  
                     if (PlaceableList.Count == 0) { m_turnState = TurnState.WhiteTurn; isChecked = true; }
                 }
                 break;
             case TurnState.EndGame:
-                if ()
+                m_winnerText.enabled = true;
+                if (whiteCellTotal > blackCellTotal)
+                {
+                    m_winnerText.text = "<color=#FFFFFF>白</color><color=#F10000>の勝利！</color>";
+                }
+                else if (blackCellTotal > whiteCellTotal)
+                {
+                    m_winnerText.text = "<color=#4C4C4C>黒</color><color=#F10000>の勝利！</color>";
+                }
+                else
+                {
+                    m_winnerText.text = "引き分け";
+                }
                 break;
         }
     }
