@@ -12,10 +12,18 @@ public class ReversiSystem : MonoBehaviour
     [SerializeField] Text m_turnText = null;
     [SerializeField] Text m_whiteCellNumText = null;
     [SerializeField] Text m_blackCellNumText = null;
+    [SerializeField] Text m_winnerText = null;
     public static ReversiCell[,] reversiCells = new ReversiCell[m_columns, m_rows];
     public static TurnState m_turnState = TurnState.WhiteTurn;
     public static bool isChecked = true;
-    public static List<ReversiCell> turnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> LBturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> LturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> LTturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> RBturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> RturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> RTturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> BturnOverList = new List<ReversiCell>();
+    public static List<ReversiCell> TturnOverList = new List<ReversiCell>();
     public static List<ReversiCell> PlaceableList = new List<ReversiCell>();
     int whiteCellTotal = 0;
     int blackCellTotal = 0;
@@ -59,6 +67,8 @@ public class ReversiSystem : MonoBehaviour
                     m_turnText.text = "白のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
                     m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
+                    if (whiteCellTotal + blackCellTotal == m_columns * m_rows) m_turnState = TurnState.EndGame;
+                    if (PlaceableList.Count == 0) { m_turnState = TurnState.BlackTurn; isChecked = true; }
                 }
                 break;
             case TurnState.BlackTurn:
@@ -71,9 +81,12 @@ public class ReversiSystem : MonoBehaviour
                     m_turnText.text = "黒のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
                     m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
+                    if (whiteCellTotal + blackCellTotal == m_columns * m_rows) m_turnState = TurnState.EndGame;
+                    if (PlaceableList.Count == 0) { m_turnState = TurnState.WhiteTurn; isChecked = true; }
                 }
                 break;
             case TurnState.EndGame:
+                if ()
                 break;
         }
     }
@@ -90,7 +103,6 @@ public class ReversiSystem : MonoBehaviour
                 }
                 else if (reversiCells[n, i].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Clear();
                     CheckCells(n, i, reversiCells[n, i].ReversiCellState);
                 }
             }
@@ -109,7 +121,6 @@ public class ReversiSystem : MonoBehaviour
                 }
                 else if (reversiCells[n, i].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    turnOverList.Clear();
                     CheckCells(n, i, reversiCells[n, i].ReversiCellState);
                 }
             }
@@ -131,7 +142,6 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[left, bottom].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                     {
-                        //turnOverList.Add(reversiCells[left, bottom]);
                         LeftBottomCheck(left, bottom, states);
                     }
                 }
@@ -139,7 +149,6 @@ public class ReversiSystem : MonoBehaviour
                 
                 if (reversiCells[x, bottom].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    //turnOverList.Add(reversiCells[x, bottom]);
                     BottomCheck(x, bottom, states);
                 }
 
@@ -147,7 +156,6 @@ public class ReversiSystem : MonoBehaviour
                 {
                      if (reversiCells[right, bottom].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                     {
-                        //turnOverList.Add(reversiCells[right, bottom]);
                         RightBottomCheck(right, bottom, states);
                     }
                 }
@@ -157,7 +165,6 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[left, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    //turnOverList.Add(reversiCells[left, y]);
                     LeftCheck(left, y, states);
                 }
             }
@@ -165,7 +172,6 @@ public class ReversiSystem : MonoBehaviour
             {
                if (reversiCells[right, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                {
-                    //turnOverList.Add(reversiCells[right, y]);
                     RightCheck(right, y, states);
                }
             }
@@ -176,14 +182,12 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[left, top].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                     {
-                        //turnOverList.Add(reversiCells[left, top]);
                         LeftTopCheck(left, top, states);
                     }
                 }
 
                 if (reversiCells[x, top].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    //turnOverList.Add(reversiCells[x, top]);
                     TopCheck(x, top, states);
                 }
 
@@ -191,7 +195,6 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[right, top].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                     {
-                        //turnOverList.Add(reversiCells[right, top]);
                         RightTopCheck(right, top, states);
                     }
                 }
@@ -205,14 +208,12 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[left, bottom].ReversiCellState == ReversiCell.ReversiCellStates.White)
                     {
-                        //turnOverList.Add(reversiCells[left, bottom]);
                         LeftBottomCheck(left, bottom, states);
                     }
                 }
 
                 if (reversiCells[x, bottom].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    //turnOverList.Add(reversiCells[x, bottom]);
                     BottomCheck(x, bottom, states);
                 }
 
@@ -220,7 +221,6 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[right, bottom].ReversiCellState == ReversiCell.ReversiCellStates.White)
                     {
-                        //turnOverList.Add(reversiCells[right, bottom]);
                         RightBottomCheck(right, bottom, states);
                     }
                 }
@@ -230,7 +230,6 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[left, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    //turnOverList.Add(reversiCells[left, y]);
                     LeftCheck(left, y, states);
                 }
             }
@@ -238,7 +237,6 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[right, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    //turnOverList.Add(reversiCells[right, y]);
                     RightCheck(right, y, states);
                 }
             }
@@ -249,14 +247,12 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[left, top].ReversiCellState == ReversiCell.ReversiCellStates.White)
                     {
-                        //turnOverList.Add(reversiCells[left, top]);
                         LeftTopCheck(left, top, states);
                     }
                 }
 
                 if (reversiCells[x, top].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    //turnOverList.Add(reversiCells[x, top]);
                     TopCheck(x, top, states);
                 }
 
@@ -264,7 +260,6 @@ public class ReversiSystem : MonoBehaviour
                 {
                     if (reversiCells[right, top].ReversiCellState == ReversiCell.ReversiCellStates.White)
                     {
-                        //turnOverList.Add(reversiCells[right, top]);
                         RightTopCheck(right, top, states);
                     }
                 }
@@ -280,7 +275,6 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    //turnOverList.Add(reversiCells[x - 1, y - 1]);
                     LeftBottomCheck(x - 1, y - 1, states);
                 }
                 else if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
@@ -297,7 +291,6 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Add(reversiCells[x - 1, y - 1]);
                     LeftBottomCheck(x - 1, y - 1, states);
                 }
                 else if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
@@ -321,8 +314,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    turnOverList.Add(reversiCells[x, y - 1]);
-                    LeftBottomCheck(x, y - 1, states);
+                    BottomCheck(x, y - 1, states);
                 }
                 else if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -338,8 +330,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Add(reversiCells[x, y - 1]);
-                    LeftBottomCheck(x, y - 1, states);
+                    BottomCheck(x, y - 1, states);
                 }
                 else if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -356,14 +347,13 @@ public class ReversiSystem : MonoBehaviour
 
     public void RightBottomCheck(int x, int y, ReversiCell.ReversiCellStates states)
     {
-        if (x < m_columns && y > 0)
+        if (x < m_columns - 1 && y > 0)
         {
             if (states == ReversiCell.ReversiCellStates.White)
             {
                 if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    turnOverList.Add(reversiCells[x + 1, y - 1]);
-                    LeftBottomCheck(x + 1, y - 1, states);
+                    RightBottomCheck(x + 1, y - 1, states);
                 }
                 else if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -379,8 +369,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Add(reversiCells[x + 1, y - 1]);
-                    LeftBottomCheck(x + 1, y - 1, states);
+                    RightBottomCheck(x + 1, y - 1, states);
                 }
                 else if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -403,8 +392,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    turnOverList.Add(reversiCells[x + 1, y]);
-                    LeftBottomCheck(x + 1, y, states);
+                    RightCheck(x + 1, y, states);
                 }
                 else if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -420,8 +408,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Add(reversiCells[x + 1, y]);
-                    LeftBottomCheck(x + 1, y, states);
+                    RightCheck(x + 1, y, states);
                 }
                 else if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -438,40 +425,41 @@ public class ReversiSystem : MonoBehaviour
 
     public void RightTopCheck(int x, int y, ReversiCell.ReversiCellStates states)
     {
-        if (states == ReversiCell.ReversiCellStates.White)
+        if (x < m_columns - 1 && y < m_rows - 1)
         {
-            if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+            if (states == ReversiCell.ReversiCellStates.White)
             {
-                turnOverList.Add(reversiCells[x + 1, y + 1]);
-                LeftBottomCheck(x + 1, y + 1, states);
+                if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    RightTopCheck(x + 1, y + 1, states);
+                }
+                else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    reversiCells[x + 1, y + 1].isWhitePlaceable = true;
+                    PlaceableList.Add(reversiCells[x + 1, y + 1]);
+                }
+                else
+                {
+                    return;
+                }
             }
-            else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+            else if (states == ReversiCell.ReversiCellStates.Black)
             {
-                reversiCells[x + 1, y + 1].isWhitePlaceable = true;
-                PlaceableList.Add(reversiCells[x + 1, y + 1]);
+                if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    RightTopCheck(x + 1, y + 1, states);
+                }
+                else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    reversiCells[x + 1, y + 1].isBlackPlaceable = true;
+                    PlaceableList.Add(reversiCells[x + 1, y + 1]);
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
-            {
-                return;
-            }
-        }
-        else if (states == ReversiCell.ReversiCellStates.Black)
-        {
-            if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
-            {
-                turnOverList.Add(reversiCells[x + 1, y + 1]);
-                LeftBottomCheck(x + 1, y + 1, states);
-            }
-            else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
-            {
-                reversiCells[x + 1, y + 1].isBlackPlaceable = true;
-                PlaceableList.Add(reversiCells[x + 1, y + 1]);
-            }
-            else
-            {
-                return;
-            }
-        }
+        }       
     }
 
     public void TopCheck(int x, int y, ReversiCell.ReversiCellStates states)
@@ -482,8 +470,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    turnOverList.Add(reversiCells[x, y + 1]);
-                    LeftBottomCheck(x, y + 1, states);
+                    TopCheck(x, y + 1, states);
                 }
                 else if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -499,8 +486,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Add(reversiCells[x, y + 1]);
-                    LeftBottomCheck(x, y + 1, states);
+                    TopCheck(x, y + 1, states);
                 }
                 else if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -517,40 +503,41 @@ public class ReversiSystem : MonoBehaviour
 
     public void LeftTopCheck(int x, int y, ReversiCell.ReversiCellStates states)
     {
-        if (states == ReversiCell.ReversiCellStates.White)
+        if (x > 0 && y < m_rows - 1)
         {
-            if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+            if (states == ReversiCell.ReversiCellStates.White)
             {
-                turnOverList.Add(reversiCells[x - 1, y + 1]);
-                LeftBottomCheck(x - 1, y + 1, states);
+                if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    LeftTopCheck(x - 1, y + 1, states);
+                }
+                else if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    reversiCells[x - 1, y + 1].isWhitePlaceable = true;
+                    PlaceableList.Add(reversiCells[x - 1, y + 1]);
+                }
+                else
+                {
+                    return;
+                }
             }
-            else if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+            else if (states == ReversiCell.ReversiCellStates.Black)
             {
-                reversiCells[x - 1, y + 1].isWhitePlaceable = true;
-                PlaceableList.Add(reversiCells[x - 1, y + 1]);
+                if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    LeftTopCheck(x - 1, y + 1, states);
+                }
+                else if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    reversiCells[x - 1, y + 1].isBlackPlaceable = true;
+                    PlaceableList.Add(reversiCells[x - 1, y + 1]);
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
-            {
-                return;
-            }
-        }
-        else if (states == ReversiCell.ReversiCellStates.Black)
-        {
-            if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
-            {
-                turnOverList.Add(reversiCells[x - 1, y + 1]);
-                LeftBottomCheck(x - 1, y + 1, states);
-            }
-            else if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
-            {
-                reversiCells[x - 1, y + 1].isBlackPlaceable = true;
-                PlaceableList.Add(reversiCells[x - 1, y + 1]);
-            }
-            else
-            {
-                return;
-            }
-        }
+        }    
     }
 
     public void LeftCheck(int x, int y, ReversiCell.ReversiCellStates states)
@@ -561,8 +548,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
-                    turnOverList.Add(reversiCells[x - 1, y]);
-                    LeftBottomCheck(x - 1, y, states);
+                    LeftCheck(x - 1, y, states);
                 }
                 else if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -581,8 +567,7 @@ public class ReversiSystem : MonoBehaviour
             {
                 if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
-                    turnOverList.Add(reversiCells[x - 1, y]);
-                    LeftBottomCheck(x - 1, y, states);
+                    LeftCheck(x - 1, y, states);
                 }
                 else if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -617,6 +602,556 @@ public class ReversiSystem : MonoBehaviour
                 else
                 {
                     continue;
+                }
+            }
+        }
+    }
+
+    public static void AddTurnOverCells(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        int bottom = y - 1;
+        int top = y + 1;
+        int right = x + 1;
+        int left = x - 1;
+
+        if (states == ReversiCell.ReversiCellStates.White)
+        {
+            if (bottom >= 0)
+            {
+                if (left >= 0)
+                {
+                    if (reversiCells[left, bottom].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                    {
+                        LBturnOverList.Clear();
+                        LBturnOverList.Add(reversiCells[left, bottom]);
+                        SLeftBottomCheck(left, bottom, states);
+                    }
+                }
+
+
+                if (reversiCells[x, bottom].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    BturnOverList.Clear();
+                    BturnOverList.Add(reversiCells[x, bottom]);
+                    SBottomCheck(x, bottom, states);
+                }
+
+                if (right < m_columns)
+                {
+                    if (reversiCells[right, bottom].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                    {
+                        RBturnOverList.Clear();
+                        RBturnOverList.Add(reversiCells[right, bottom]);
+                        SRightBottomCheck(right, bottom, states);
+                    }
+                }
+            }
+
+            if (left >= 0)
+            {
+                if (reversiCells[left, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    LturnOverList.Clear();
+                    LturnOverList.Add(reversiCells[left, y]);
+                    SLeftCheck(left, y, states);
+                }
+            }
+            if (right < m_columns)
+            {
+                if (reversiCells[right, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    RturnOverList.Clear();
+                    RturnOverList.Add(reversiCells[right, y]);
+                    SRightCheck(right, y, states);
+                }
+            }
+
+            if (top < m_rows)
+            {
+                if (left >= 0)
+                {
+                    if (reversiCells[left, top].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                    {
+                        LTturnOverList.Clear();
+                        LTturnOverList.Add(reversiCells[left, top]);
+                        SLeftTopCheck(left, top, states);
+                    }
+                }
+
+                if (reversiCells[x, top].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    TturnOverList.Clear();
+                    TturnOverList.Add(reversiCells[x, top]);
+                    STopCheck(x, top, states);
+                }
+
+                if (right < m_columns)
+                {
+                    if (reversiCells[right, top].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                    {
+                        RTturnOverList.Clear();
+                        RTturnOverList.Add(reversiCells[right, top]);
+                        SRightTopCheck(right, top, states);
+                    }
+                }
+            }
+        }
+        else if (reversiCells[x, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+        {
+            if (bottom >= 0)
+            {
+                if (left >= 0)
+                {
+                    if (reversiCells[left, bottom].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                    {
+                        LBturnOverList.Clear();
+                        LBturnOverList.Add(reversiCells[left, bottom]);
+                        SLeftBottomCheck(left, bottom, states);
+                    }
+                }
+
+                if (reversiCells[x, bottom].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    BturnOverList.Clear();
+                    BturnOverList.Add(reversiCells[x, bottom]);
+                    SBottomCheck(x, bottom, states);
+                }
+
+                if (right < m_columns)
+                {
+                    if (reversiCells[right, bottom].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                    {
+                        RBturnOverList.Clear();
+                        RBturnOverList.Add(reversiCells[right, bottom]);
+                        SRightBottomCheck(right, bottom, states);
+                    }
+                }
+            }
+
+            if (left >= 0)
+            {
+                if (reversiCells[left, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    LturnOverList.Clear();
+                    LturnOverList.Add(reversiCells[left, y]);
+                    SLeftCheck(left, y, states);
+                }
+            }
+            if (right < m_columns)
+            {
+                if (reversiCells[right, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    RturnOverList.Clear();
+                    RturnOverList.Add(reversiCells[right, y]);
+                    SRightCheck(right, y, states);
+                }
+            }
+
+            if (top < m_rows)
+            {
+                if (left >= 0)
+                {
+                    if (reversiCells[left, top].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                    {
+                        LTturnOverList.Clear();
+                        LTturnOverList.Add(reversiCells[left, top]);
+                        SLeftTopCheck(left, top, states);
+                    }
+                }
+
+                if (reversiCells[x, top].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    TturnOverList.Clear();
+                    TturnOverList.Add(reversiCells[x, top]);
+                    STopCheck(x, top, states);
+                }
+
+                if (right < m_columns)
+                {
+                    if (reversiCells[right, top].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                    {
+                        RTturnOverList.Clear();
+                        RTturnOverList.Add(reversiCells[right, top]);
+                        SRightTopCheck(right, top, states);
+                    }
+                }
+            }
+        }
+    }
+    public static void SLeftBottomCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (x > 0 && y > 0)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    LBturnOverList.Add(reversiCells[x - 1, y - 1]);
+                    SLeftBottomCheck(x - 1, y - 1, states);
+                }
+                else if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    LBturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in LBturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    LBturnOverList.Add(reversiCells[x - 1, y - 1]);
+                    SLeftBottomCheck(x - 1, y - 1, states);
+                }
+                else if (reversiCells[x - 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    LBturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in LBturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void SBottomCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (y > 0)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    BturnOverList.Add(reversiCells[x, y - 1]);
+                    SBottomCheck(x, y - 1, states);
+                }
+                else if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    BturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in BturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    BturnOverList.Add(reversiCells[x, y - 1]);
+                    SBottomCheck(x, y - 1, states);
+                }
+                else if (reversiCells[x, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    BturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in BturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void SRightBottomCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (x < m_columns - 1 && y > 0)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    RBturnOverList.Add(reversiCells[x + 1, y - 1]);
+                    SRightBottomCheck(x + 1, y - 1, states);
+                }
+                else if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    RBturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in RBturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    RBturnOverList.Add(reversiCells[x + 1, y - 1]);
+                    SRightBottomCheck(x + 1, y - 1, states);
+                }
+                else if (reversiCells[x + 1, y - 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    RBturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in RBturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void SRightCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (x < m_columns - 1)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    RturnOverList.Add(reversiCells[x + 1, y]);
+                    SRightCheck(x + 1, y, states);
+                }
+                else if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    RturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in RturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    RturnOverList.Add(reversiCells[x + 1, y]);
+                    SRightCheck(x + 1, y, states);
+                }
+                else if (reversiCells[x + 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    RturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in RturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void SRightTopCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (x < m_columns - 1 && y < m_rows - 1)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    RTturnOverList.Add(reversiCells[x + 1, y + 1]);
+                    SRightCheck(x + 1, y + 1, states);
+                }
+                else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    RTturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in RTturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    RTturnOverList.Add(reversiCells[x + 1, y + 1]);
+                    SRightCheck(x + 1, y + 1, states);
+                }
+                else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    RTturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in RTturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }    
+    }
+
+    public static void STopCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (y < m_rows - 1)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    TturnOverList.Add(reversiCells[x, y + 1]);
+                    STopCheck(x, y + 1, states);
+                }
+                else if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    TturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in TturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    TturnOverList.Add(reversiCells[x, y + 1]);
+                    STopCheck(x, y + 1, states);
+                }
+                else if (reversiCells[x, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    TturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in TturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void SLeftTopCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (x > 0 && y < m_rows - 1)
+        {
+            if (states == ReversiCell.ReversiCellStates.White)
+            {
+                if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    LTturnOverList.Add(reversiCells[x - 1, y + 1]);
+                    SLeftTopCheck(x - 1, y + 1, states);
+                }
+                else if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    LTturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in LTturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+            else if (states == ReversiCell.ReversiCellStates.Black)
+            {
+                if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    LTturnOverList.Add(reversiCells[x - 1, y + 1]);
+                    SLeftTopCheck(x - 1, y + 1, states);
+                }
+                else if (reversiCells[x - 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    LTturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in LTturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
+                }
+            }
+        }    
+    }
+
+    public static void SLeftCheck(int x, int y, ReversiCell.ReversiCellStates states)
+    {
+        if (states == ReversiCell.ReversiCellStates.White)
+        {
+            if (x > 0)
+            {
+                if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.Black)
+                {
+                    LturnOverList.Add(reversiCells[x - 1, y]);
+                    SLeftCheck(x - 1, y, states);
+                }
+                else if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    LturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in LturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                    }
+                    return;
+                }
+            }
+        }
+        else if (states == ReversiCell.ReversiCellStates.Black)
+        {
+            if (x > 0)
+            {
+                if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.White)
+                {
+                    LturnOverList.Add(reversiCells[x - 1, y]);
+                    SLeftCheck(x - 1, y, states);
+                }
+                else if (reversiCells[x - 1, y].ReversiCellState == ReversiCell.ReversiCellStates.None)
+                {
+                    LturnOverList.Clear();
+                }
+                else
+                {
+                    foreach (var cell in LturnOverList)
+                    {
+                        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                    }
+                    return;
                 }
             }
         }

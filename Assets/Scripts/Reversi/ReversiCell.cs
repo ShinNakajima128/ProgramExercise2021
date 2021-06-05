@@ -47,9 +47,13 @@ public class ReversiCell : MonoBehaviour
                 break;
         }
 
-        if (isWhitePlaceable || isBlackPlaceable)
+        if (isWhitePlaceable)
         {
-            m_board.GetComponent<Renderer>().material.color = new Color(0.6f, 0.6f, 0.6f);
+            m_board.GetComponent<Renderer>().material.color = new Color(0.8f, 0.8f, 0.8f);
+        }
+        else if (isBlackPlaceable)
+        {
+            m_board.GetComponent<Renderer>().material.color = new Color(0.4f, 0.4f, 0.4f);
         }
         else
         {
@@ -65,45 +69,39 @@ public class ReversiCell : MonoBehaviour
             isWhitePlaceable = false;
             ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.White;
             ReversiSystem.m_turnState = ReversiSystem.TurnState.BlackTurn;
-            TurnOverWhite();
+            ReversiSystem.AddTurnOverCells(m_cell_X, m_cell_Y, ReversiCellState);
+            TurnOver();
             ReversiSystem.isChecked = true;
-            
         }
         else if (ReversiSystem.reversiCells[m_cell_X, m_cell_Y].isBlackPlaceable)
         {
             isBlackPlaceable = false;
             ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.Black;
             ReversiSystem.m_turnState = ReversiSystem.TurnState.WhiteTurn;
-            TurnOverBlack();
+            ReversiSystem.AddTurnOverCells(m_cell_X, m_cell_Y, ReversiCellState);
+            TurnOver();
             ReversiSystem.isChecked = true;
-            
         }
     }
 
-    public void TurnOverWhite()
+    public void TurnOver()
     {
-        foreach (var cell in ReversiSystem.turnOverList)
+        if (ReversiSystem.m_turnState == ReversiSystem.TurnState.WhiteTurn)
         {
-            cell.ReversiCellState = ReversiCellStates.White;
+            foreach (var cell in ReversiSystem.PlaceableList)
+            {
+                cell.isWhitePlaceable = false;
+                cell.isBlackPlaceable = false;
+            }
         }
-
-        foreach (var cell in ReversiSystem.PlaceableList)
+        else if (ReversiSystem.m_turnState == ReversiSystem.TurnState.BlackTurn)
         {
-            cell.isWhitePlaceable = false;
-        }
-        ReversiSystem.PlaceableList.Clear();
-    }
-    public void TurnOverBlack()
-    {
-        foreach (var cell in ReversiSystem.turnOverList)
-        {
-            cell.ReversiCellState = ReversiCellStates.Black;
-        }
-
-        foreach (var cell in ReversiSystem.PlaceableList)
-        {
-            cell.isBlackPlaceable = false;
-        }
+            foreach (var cell in ReversiSystem.PlaceableList)
+            {
+                cell.isWhitePlaceable = false;
+                cell.isBlackPlaceable = false;
+            }
+        } 
         ReversiSystem.PlaceableList.Clear();
     }
 }
