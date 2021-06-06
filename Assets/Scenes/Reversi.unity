@@ -370,7 +370,7 @@ MonoBehaviour:
   m_whiteCellNumText: {fileID: 786375282}
   m_blackCellNumText: {fileID: 286604181}
   m_winnerText: {fileID: 904351987}
-  m_FinishedPanel: {fileID: 0}
+  m_FinishedPanel: {fileID: 1177055928}
 --- !u!4 &188173272
 Transform:
   m_ObjectHideFlags: 0

@@ -1006,7 +1006,7 @@ public class ReversiSystem : MonoBehaviour
                 if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.Black)
                 {
                     RTturnOverList.Add(reversiCells[x + 1, y + 1]);
-                    SRightCheck(x + 1, y + 1, states);
+                    SRightTopCheck(x + 1, y + 1, states);
                 }
                 else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
@@ -1026,7 +1026,7 @@ public class ReversiSystem : MonoBehaviour
                 if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.White)
                 {
                     RTturnOverList.Add(reversiCells[x + 1, y + 1]);
-                    SRightCheck(x + 1, y + 1, states);
+                    SRightTopCheck(x + 1, y + 1, states);
                 }
                 else if (reversiCells[x + 1, y + 1].ReversiCellState == ReversiCell.ReversiCellStates.None)
                 {
