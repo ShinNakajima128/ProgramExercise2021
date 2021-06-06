@@ -14,6 +14,7 @@ public class BingoSystem : MonoBehaviour
     [SerializeField] GameObject m_bingoText = null;
     [SerializeField] Text m_lotTimesText = null;
     [SerializeField] GameObject m_finishedPanel = null;
+    [SerializeField] GameObject[] m_chainLines = null;
     public BingoCell[,] bingocells;
     const int index = 25;
     int lottedNumber = 70;
@@ -166,9 +167,9 @@ public class BingoSystem : MonoBehaviour
                             rightChain = 1;
                             lowerRightChain = 1;
                             lowerChain = 1;
-                            RightCheck(n, i);
+                            RightCheck(n, i, i);
                             LowerRightCheck(n, i);
-                            LowerCheck(n, i);
+                            LowerCheck(n, i, n);
                         }
                     }
                     else if (n < m_columns - 1)
@@ -176,7 +177,7 @@ public class BingoSystem : MonoBehaviour
                         if (bingocells[n, i].isCellOpened)
                         {
                             lowerChain = 1;
-                            LowerCheck(n, i);
+                            LowerCheck(n, i, n);
                         }
                     }
                     else if (n == m_columns - 1)
@@ -185,24 +186,24 @@ public class BingoSystem : MonoBehaviour
                         {
                             lowerChain = 1;
                             lowerLeftChain = 1;
-                            LowerCheck(n, i);
+                            LowerCheck(n, i, n);
                             LowerLeftCheck(n, i);
                         }   
                     }    
                 }
-                else if (i < m_rows - 1)
+                else if (i < m_rows)
                 {
                     if (bingocells[n, i].isCellOpened)
                     {
                         rightChain = 1;
-                        RightCheck(n, i);
+                        RightCheck(n, i, i);
                     }
                 }
             }
         }
     }
 
-    public void RightCheck(int x, int y)
+    public void RightCheck(int x, int y, int lineNum)
     {
         int right = x + 1;
 
@@ -211,12 +212,17 @@ public class BingoSystem : MonoBehaviour
             if (bingocells[right, y].isCellOpened)
             {
                 rightChain++;
-                RightCheck(right, y);
+                RightCheck(right, y,lineNum);
             }
         }
         else
         {
             if (rightChain == 5) isFiveChained = true;
+            if (lineNum == 0) m_chainLines[0].SetActive(true);
+            if (lineNum == 1) m_chainLines[1].SetActive(true);
+            if (lineNum == 2) m_chainLines[2].SetActive(true);
+            if (lineNum == 3) m_chainLines[3].SetActive(true);
+            if (lineNum == 4) m_chainLines[4].SetActive(true);
         }
     }
 
@@ -236,10 +242,11 @@ public class BingoSystem : MonoBehaviour
         else
         {
             if (lowerRightChain == 5) isFiveChained = true;
+            m_chainLines[11].SetActive(true);
         }
     }
 
-    public void LowerCheck(int x, int y)
+    public void LowerCheck(int x, int y, int lineNum)
     {
         int bottom = y + 1;
 
@@ -248,12 +255,17 @@ public class BingoSystem : MonoBehaviour
             if (bingocells[x, bottom].isCellOpened)
             {
                 lowerChain++;
-                LowerCheck(x, bottom);
+                LowerCheck(x, bottom, lineNum);
             }
         }
         else
         {
             if (lowerChain == 5) isFiveChained = true;
+            if (lineNum == 0) m_chainLines[5].SetActive(true);
+            if (lineNum == 1) m_chainLines[6].SetActive(true);
+            if (lineNum == 2) m_chainLines[7].SetActive(true);
+            if (lineNum == 3) m_chainLines[8].SetActive(true);
+            if (lineNum == 4) m_chainLines[9].SetActive(true);
         }
     }
 
@@ -273,6 +285,7 @@ public class BingoSystem : MonoBehaviour
         else
         {
             if (lowerLeftChain == 5) isFiveChained = true;
+            m_chainLines[10].SetActive(true);
         }
     }
 
