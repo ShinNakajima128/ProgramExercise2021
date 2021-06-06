@@ -38,7 +38,18 @@ public class ReversiSystem : MonoBehaviour
 
     void Start()
     {
+        int r = Random.Range(0, 2);
+        if (r == 0)
+        {
+            m_turnState = TurnState.WhiteTurn;
+        }
+        else
+        {
+            m_turnState = TurnState.BlackTurn;
+        }
+
         m_winnerText.enabled = false;
+        m_FinishedPanel.SetActive(false);
 
         for (int i = 0; i < m_rows; i++)
         {
@@ -92,7 +103,9 @@ public class ReversiSystem : MonoBehaviour
                 }
                 break;
             case TurnState.EndGame:
+                m_FinishedPanel.SetActive(true);
                 m_winnerText.enabled = true;
+
                 if (whiteCellTotal > blackCellTotal)
                 {
                     m_winnerText.text = "<color=#FFFFFF>白</color><color=#F10000>の勝利！</color>";
