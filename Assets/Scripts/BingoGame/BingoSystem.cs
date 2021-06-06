@@ -13,6 +13,7 @@ public class BingoSystem : MonoBehaviour
     [SerializeField] Text m_lotNumText = null;
     [SerializeField] GameObject m_bingoText = null;
     [SerializeField] Text m_lotTimesText = null;
+    [SerializeField] GameObject m_finishedPanel = null;
     public BingoCell[,] bingocells;
     const int index = 25;
     int lottedNumber = 70;
@@ -30,6 +31,7 @@ public class BingoSystem : MonoBehaviour
     void Start()
     {
         m_bingoText.SetActive(false);
+        m_finishedPanel.SetActive(false);
         var parent = m_gridLayoutGroup.transform;
         bingocells = new BingoCell[m_columns, m_rows];
         lottedNums = new int[lottedNumber];
@@ -89,6 +91,7 @@ public class BingoSystem : MonoBehaviour
         {
             Debug.Log("BINGO!");
             m_bingoText.SetActive(true);
+            m_finishedPanel.SetActive(true);
             isFiveChained = false;
         }
     }
@@ -187,7 +190,7 @@ public class BingoSystem : MonoBehaviour
                         }   
                     }    
                 }
-                else if (i < m_rows)
+                else if (i < m_rows - 1)
                 {
                     if (bingocells[n, i].isCellOpened)
                     {
@@ -259,7 +262,7 @@ public class BingoSystem : MonoBehaviour
         int left = x - 1;
         int bottom = y + 1;
 
-        if (left > 0 && bottom < m_columns)
+        if (left >= 0 && bottom < m_columns)
         {
             if (bingocells[left, bottom].isCellOpened)
             {
