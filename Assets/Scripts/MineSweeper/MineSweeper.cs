@@ -14,17 +14,19 @@ public class MineSweeper : MonoBehaviour
     [SerializeField] GameObject _gameclearPanel = null;
 
     [SerializeField] int _mineCount = 1;
-    int aroundMine = 0;
+    public static int aroundMine = 0;
     public static Cell[,] _cells;
     public static bool InGame = true;
     public static int _closeCellCount;
+    public static int _mineCountS;
 
     void Start()
     {
-        
+        _mineCountS = _mineCount;
         _closeCellCount = _columns * _rows;
         _gameoverPanel.SetActive(false);
         _gameclearPanel.SetActive(false);
+        Cell.isFirstSerected = true;
 
         var parent = _gridLayoutGroup.transform;
 
@@ -51,26 +53,6 @@ public class MineSweeper : MonoBehaviour
                 _cells[n, i].m_indexNum = (i * 10) + n;
             }
         }
-
-        for (var i = 0; i < _mineCount;)
-        {
-            var r = Random.Range(0, _rows);
-            var c = Random.Range(0, _columns);
-            var cell = _cells[r, c];
-
-            if (cell.CellState == Cell.CellStates.Mine)
-            {
-                continue;
-            }
-            else
-            {
-                cell.CellState = Cell.CellStates.Mine;
-                i++;
-            }
-        }
-
-        StartCell();
-
     }
     private void Update()
     {
@@ -85,8 +67,29 @@ public class MineSweeper : MonoBehaviour
             _gameclearPanel.SetActive(true);
         }
     }
+    public static void SetMine()
+    {
+        for (var i = 0; i < _mineCountS;)
+        {
+            var r = Random.Range(0, _rows);
+            var c = Random.Range(0, _columns);
+            var cell = _cells[r, c];
 
-    void StartCell()
+            if (cell.CellState == Cell.CellStates.Mine || cell.isOpened)
+            {
+                continue;
+            }
+            else
+            {
+                cell.CellState = Cell.CellStates.Mine;
+                i++;
+            }
+        }
+
+        StartCell();
+    } 
+    
+    public static void StartCell()
     {
         for (int i = 0; i < _rows; i++)
         {

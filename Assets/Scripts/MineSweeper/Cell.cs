@@ -11,6 +11,7 @@ public class Cell : MonoBehaviour
     public int m_indexNum = 0;
     public bool isOpened = false;
     bool isFlaged = false;
+    public static bool isFirstSerected = true;
 
     public CellStates CellState
     {
@@ -73,7 +74,16 @@ public class Cell : MonoBehaviour
     {
         isOpened = true;
 
-        if (CellState == CellStates.Mine) MineSweeper.InGame = false;
+        if (isFirstSerected)
+        {
+            MineSweeper.SetMine();
+            isFirstSerected = false;
+        }
+        else
+        {
+            if (CellState == CellStates.Mine) { MineSweeper.InGame = false; }
+        }
+
         MineSweeper._closeCellCount--;
         MineSweeper.CheckCells(this);
         OnCellStateChanged();
