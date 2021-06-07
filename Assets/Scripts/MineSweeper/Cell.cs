@@ -94,6 +94,8 @@ public class Cell : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+            if (isOpened) return;
+
             if (isFlaged)
             {
                 Debug.Log("旗を取り除きました");
