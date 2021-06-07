@@ -105,7 +105,7 @@ public class Cell : MonoBehaviour
             {
                 Debug.Log("旗を立てました");
                 m_bg.color = new Color(1, 0, 0);
-                m_view.text = "B";
+                m_view.text = "M";
                 m_view.color = Color.yellow;
                 isFlaged = true;
             } 
