@@ -51,23 +51,26 @@ public class Cell : MonoBehaviour
     {
         if (m_view == null) return;
 
-        if (isOpened)
+        if (MineSweeper.InGame)
         {
-            if (m_cellStates == CellStates.None)
+            if (isOpened)
             {
-                m_view.text = "";
+                if (m_cellStates == CellStates.None)
+                {
+                    m_view.text = "";
+                }
+                else if (m_cellStates == CellStates.Mine)
+                {
+                    m_view.text = "X";
+                    m_view.color = Color.red;
+                }
+                else
+                {
+                    m_view.text = ((int)m_cellStates).ToString();
+                    m_view.color = Color.blue;
+                }
             }
-            else if (m_cellStates == CellStates.Mine)
-            {
-                m_view.text = "X";
-                m_view.color = Color.red;
-            }
-            else
-            {
-                m_view.text = ((int)m_cellStates).ToString();
-                m_view.color = Color.blue;
-            }
-        }      
+        }    
     }
 
     public void Open()

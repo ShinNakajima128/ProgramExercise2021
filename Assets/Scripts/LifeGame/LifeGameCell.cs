@@ -36,7 +36,7 @@ public class LifeGameCell : MonoBehaviour
                 break;
             case CellStates.alive:
                 m_deadCell.SetActive(false);
-                m_aliveCell.SetActive(true);            
+                m_aliveCell.SetActive(true);
                 break;
         }
 

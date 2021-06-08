@@ -11,11 +11,13 @@ public class LifeGameSystem : MonoBehaviour
     [SerializeField] LifeGameCell m_lifeGameCellPrefab = null;
     [SerializeField] Text m_aliveCells;
     [SerializeField] Text m_generationText = null;
+    [SerializeField] Text m_playButtonText = null;
     public static LifeGameCell[,] lifecells;
     public static float m_timer = 0;
     int cellstateNum = 0;
     public static int allCells;
     int generationNum = 1;
+    bool isPlayed = true;
 
     private void Awake()
     {
@@ -50,15 +52,36 @@ public class LifeGameSystem : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    LifeActivity();
-        //    generationNum++;
-        //}
+        if (isPlayed)
+        {
+            LifeActivity();
+            generationNum++;
+        }
+        
+        if (m_aliveCells != null) m_aliveCells.text = "生存数" + allCells.ToString() + "個";
+        if (m_generationText != null) m_generationText.text = generationNum.ToString() + "世代";
+    }
+
+    public void SetPlayState()
+    {
+        if (isPlayed)
+        {
+            isPlayed = false;
+            m_playButtonText.text = "プレイ";
+            m_playButtonText.color = Color.green;
+        }
+        else
+        {
+            isPlayed = true;
+            m_playButtonText.text = "ストップ";
+            m_playButtonText.color = Color.red;
+        }
+    }
+
+    public void OneAdvanceGeneration()
+    {
         LifeActivity();
         generationNum++;
-        if (m_aliveCells != null) m_aliveCells.text = "生存しているセル" + allCells.ToString() + "個";
-        if (m_generationText != null) m_generationText.text = generationNum.ToString() + "世代";
     }
 
     void LifeActivity()

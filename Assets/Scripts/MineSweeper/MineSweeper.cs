@@ -22,6 +22,7 @@ public class MineSweeper : MonoBehaviour
 
     void Start()
     {
+        InGame = true;
         _mineCountS = _mineCount;
         _closeCellCount = _columns * _rows;
         _gameoverPanel.SetActive(false);
@@ -56,15 +57,21 @@ public class MineSweeper : MonoBehaviour
     }
     private void Update()
     {
+        if (_closeCellCount == _mineCount) InGame = false;
 
         if (!InGame)
         {
-            _gameoverPanel.SetActive(true);
-        }
-
-        if (_closeCellCount == _mineCount)
-        {
-            _gameclearPanel.SetActive(true);
+            if (_closeCellCount == _mineCount)
+            {
+                AllCellOpen();
+                _gameclearPanel.SetActive(true);
+            }
+            else
+            {
+                AllCellOpen();
+                _gameoverPanel.SetActive(true);
+            }
+            
         }
     }
     public static void SetMine()
@@ -89,6 +96,56 @@ public class MineSweeper : MonoBehaviour
         StartCell();
     } 
     
+    public void AllCellOpen()
+    {
+        for (int i = 0; i < _rows; i++)
+        {
+            for (int n = 0; n < _columns; n++)
+            {
+                var cell = _cells[n, i];
+                if (!_cells[n, i].isOpened)
+                {
+                    
+                    if (cell.CellState == Cell.CellStates.Mine)
+                    {
+                        cell.isOpened = true;
+                        cell.GetComponent<Image>().color = new Color(1, 1, 0);
+                        cell.GetComponentInChildren <Text>().text = "X";
+                        cell.GetComponentInChildren<Text>().color = Color.red;
+                    }
+                    else if (cell.CellState == Cell.CellStates.None)
+                    {
+                        cell.isOpened = true;
+                        cell.GetComponentInChildren<Text>().text = "";
+                    }
+                    else
+                    {
+                        cell.isOpened = true;
+                        cell.GetComponentInChildren<Text>().text = ((int)_cells[n, i].CellState).ToString();
+                        cell.GetComponentInChildren<Text>().color = Color.blue;
+                    }
+                }
+                else if (cell.isOpened)
+                {
+                    if (cell.CellState == Cell.CellStates.Mine)
+                    {
+                        cell.GetComponent<Image>().color = new Color(1, 1, 0);
+                        cell.GetComponentInChildren<Text>().text = "X";
+                        cell.GetComponentInChildren<Text>().color = Color.red;
+                    }
+                    else if (cell.CellState == Cell.CellStates.None)
+                    {
+                        cell.GetComponentInChildren<Text>().text = "";
+                    }
+                    else
+                    {
+                        cell.GetComponentInChildren<Text>().text = ((int)_cells[n, i].CellState).ToString();
+                        cell.GetComponentInChildren<Text>().color = Color.blue;
+                    }
+                }
+            }
+        }
+    }
     public static void StartCell()
     {
         for (int i = 0; i < _rows; i++)
@@ -199,8 +256,6 @@ public class MineSweeper : MonoBehaviour
                 
                 if (a.m_indexNum == _cells[n, i].m_indexNum && a.CellState == Cell.CellStates.None && a.isOpened)
                 {
-                    Debug.Log(n);
-                    Debug.Log(i);
                     isChecked = true;
                     if (n == 0 && i == 0)
                     {
