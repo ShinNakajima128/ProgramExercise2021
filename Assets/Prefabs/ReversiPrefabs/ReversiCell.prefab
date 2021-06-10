@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: 6697548185698086045}
   - component: {fileID: 453305382850803688}
   - component: {fileID: 8401681146666946007}
+  - component: {fileID: 8095671108519302781}
   m_Layer: 0
   m_Name: ReversiCell
   m_TagString: Untagged
@@ -590,7 +591,10 @@ MonoBehaviour:
   m_blackCell: {fileID: 6697548184537111225}
   m_board: {fileID: 6697548184158589053}
   m_reversiCellStates: 0
-  isPlaceable: 0
+  isWhitePlaceable: 0
+  isBlackPlaceable: 0
+  m_cell_X: 0
+  m_cell_Y: 0
 --- !u!65 &8401681146666946007
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -604,3 +608,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.18496287, z: 1}
   m_Center: {x: 0, y: 0.06177765, z: 0}
+--- !u!95 &8095671108519302781
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697548185698086018}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 34ac04fc8f93dab4d966588b2d4052dd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

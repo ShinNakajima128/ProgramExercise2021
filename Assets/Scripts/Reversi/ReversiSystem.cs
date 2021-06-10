@@ -829,6 +829,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in LBturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -849,6 +850,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in LBturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -876,6 +878,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in BturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -896,6 +899,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in BturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -923,6 +927,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in RBturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -943,6 +948,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in RBturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -970,6 +976,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in RturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -990,6 +997,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in RturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -1017,6 +1025,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in RTturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -1037,6 +1046,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in RTturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -1064,6 +1074,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in TturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -1084,6 +1095,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in TturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -1111,6 +1123,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in LTturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -1131,6 +1144,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in LTturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }
@@ -1158,6 +1172,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in LturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.White;
+                        cell.m_anim.Play("WhiteAnimation");
                     }
                     return;
                 }
@@ -1181,6 +1196,7 @@ public class ReversiSystem : MonoBehaviour
                     foreach (var cell in LturnOverList)
                     {
                         cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+                        cell.m_anim.Play("BlackAnimation");
                     }
                     return;
                 }

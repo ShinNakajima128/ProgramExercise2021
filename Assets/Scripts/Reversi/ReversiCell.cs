@@ -12,6 +12,7 @@ public class ReversiCell : MonoBehaviour
     public bool isBlackPlaceable = false;
     public int m_cell_X = 0;
     public int m_cell_Y = 0;
+    public Animator m_anim;
 
     public enum ReversiCellStates
     {
@@ -29,6 +30,11 @@ public class ReversiCell : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        m_anim = GetComponent<Animator>();
+    }
+
     void Update()
     {
         switch (m_reversiCellStates)
@@ -39,7 +45,7 @@ public class ReversiCell : MonoBehaviour
                 break;
             case ReversiCellStates.Black:
                 m_whiteCell.SetActive(false);
-                m_blackCell.SetActive(true);
+                m_blackCell.SetActive(true);               
                 break;
             case ReversiCellStates.White:
                 m_whiteCell.SetActive(true);
