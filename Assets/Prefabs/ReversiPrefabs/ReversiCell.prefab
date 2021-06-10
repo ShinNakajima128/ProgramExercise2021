@@ -595,6 +595,7 @@ MonoBehaviour:
   isBlackPlaceable: 0
   m_cell_X: 0
   m_cell_Y: 0
+  m_anim: {fileID: 0}
 --- !u!65 &8401681146666946007
 BoxCollider:
   m_ObjectHideFlags: 0
