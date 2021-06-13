@@ -13,6 +13,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] Dropdown m_sceneDropdowm = null;
     [SerializeField] GameObject m_guideText = null;
     TitleState m_titleState = TitleState.None;
+    bool isUpdated = false;
 
     enum TitleState
     {
@@ -68,6 +69,16 @@ public class TitleManager : MonoBehaviour
                 m_mainMenu.SetActive(false);
                 m_optionMenu.SetActive(false);
                 m_AudioMenu.SetActive(true);
+
+                if (!isUpdated)
+                {
+                    GameObject.Find("MasterSlider").GetComponent<Slider>().value = SoundManager.m_masterVolume;
+                    GameObject.Find("BGMSlider").GetComponent<Slider>().value = SoundManager.m_bgmVolume;
+                    GameObject.Find("SESlider").GetComponent<Slider>().value = SoundManager.m_seVolume;
+                    isUpdated = true;
+                    Debug.Log("check");
+                }
+                
                 break;
         }
     }

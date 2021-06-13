@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
@@ -37,7 +38,37 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
+    private void Start()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        //if (SceneManager.GetActiveScene().name == "Title")
+        //{
+        //    PlayBgmByName("Title");
+        //}
+        PlayBgmByName("Title");
+    }
 
+    void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Title":
+                PlayBgmByName("Title");
+                break;
+            case "MineSweeper":
+                PlayBgmByName("MineSweeper");
+                break;
+            case "LifeGame":
+                PlayBgmByName("LifeGame");
+                break;
+            case "Bingo":
+                PlayBgmByName("Bingo");
+                break;
+            case "Reversi":
+                PlayBgmByName("Reversi");
+                break;
+        }
+    }
     void Update()
     {
         m_bgmAudioSource.volume = m_bgmVolume * m_masterVolume;
@@ -46,7 +77,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            PlayBgmByName("TestBGM");
+            PlayBgmByName("Title");
         }
         if (Input.GetKeyDown(KeyCode.S))
         {

@@ -4748,7 +4748,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97627d8dc2a3f0e49be7159189632378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bgms: []
+  m_bgms:
+  - {fileID: 8300000, guid: 591df12f7de193548be606013006bfa8, type: 3}
+  - {fileID: 8300000, guid: b60c93ea76f8f6646908587a14c4a48b, type: 3}
+  - {fileID: 8300000, guid: 73126bef583cd7c41b018badfef6b6cd, type: 3}
+  - {fileID: 8300000, guid: 62368b19350f3fd45bd98fb4d649a821, type: 3}
+  - {fileID: 8300000, guid: 82e173a5be3ea084f9f5c05b2f2eb999, type: 3}
   m_ses: []
   m_bgmAudioSource: {fileID: 317714845}
   m_seAudioSource: {fileID: 292853542}
