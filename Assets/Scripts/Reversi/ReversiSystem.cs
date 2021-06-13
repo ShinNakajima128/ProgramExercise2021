@@ -28,6 +28,8 @@ public class ReversiSystem : MonoBehaviour
     public static List<ReversiCell> PlaceableList = new List<ReversiCell>();
     int whiteCellTotal = 2;
     int blackCellTotal = 2;
+    SoundManager soundManager;
+    bool isDisplayed = false;
 
     public enum TurnState
     {
@@ -38,6 +40,8 @@ public class ReversiSystem : MonoBehaviour
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
+        soundManager.UnMuteBgm();
         int r = Random.Range(0, 2);
         if (r == 0)
         {
@@ -103,20 +107,26 @@ public class ReversiSystem : MonoBehaviour
                 }
                 break;
             case TurnState.EndGame:
-                m_FinishedPanel.SetActive(true);
-                m_winnerText.enabled = true;
+                if (!isDisplayed)
+                {
+                    soundManager.MuteBgm();
+                    soundManager.PlaySeByName("GameSet");
+                    m_FinishedPanel.SetActive(true);
+                    m_winnerText.enabled = true;
 
-                if (whiteCellTotal > blackCellTotal)
-                {
-                    m_winnerText.text = "<color=#FFFFFF>白</color><color=#F10000>の勝利！</color>";
-                }
-                else if (blackCellTotal > whiteCellTotal)
-                {
-                    m_winnerText.text = "<color=#4C4C4C>黒</color><color=#F10000>の勝利！</color>";
-                }
-                else
-                {
-                    m_winnerText.text = "引き分け";
+                    if (whiteCellTotal > blackCellTotal)
+                    {
+                        m_winnerText.text = "<color=#FFFFFF>白</color><color=#F10000>の勝利！</color>";
+                    }
+                    else if (blackCellTotal > whiteCellTotal)
+                    {
+                        m_winnerText.text = "<color=#4C4C4C>黒</color><color=#F10000>の勝利！</color>";
+                    }
+                    else
+                    {
+                        m_winnerText.text = "引き分け";
+                    }
+                    isDisplayed = true;
                 }
                 break;
         }

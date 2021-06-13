@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - UpperCell
+  - SoundManager
   layers:
   - Default
   - TransparentFX

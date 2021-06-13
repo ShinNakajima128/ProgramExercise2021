@@ -28,9 +28,12 @@ public class BingoSystem : MonoBehaviour
     int lowerLeftChain = 0;
     bool isFiveChained = false;
     int lotTimes = 0;
+    SoundManager soundManager;
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
+        soundManager.UnMuteBgm();
         m_bingoText.SetActive(false);
         m_finishedPanel.SetActive(false);
         var parent = m_gridLayoutGroup.transform;
@@ -91,6 +94,8 @@ public class BingoSystem : MonoBehaviour
         if (isFiveChained)
         {
             Debug.Log("BINGO!");
+            soundManager.StopBgm();
+            soundManager.PlaySeByName("Bingo");
             m_bingoText.SetActive(true);
             m_finishedPanel.SetActive(true);
             isFiveChained = false;
@@ -129,6 +134,7 @@ public class BingoSystem : MonoBehaviour
 
     public void LotteryNum()
     {
+        soundManager.PlaySeByName("Lot");
         lotNum = lottedNums[lottedIndex];
         SameNumberCheck(lotNum);
         lottedIndex++;

@@ -12,6 +12,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject m_gameBar = null;
     [SerializeField] Dropdown m_sceneDropdowm = null;
     [SerializeField] GameObject m_guideText = null;
+    SoundManager soundManager;
     TitleState m_titleState = TitleState.None;
     bool isUpdated = false;
 
@@ -25,6 +26,8 @@ public class TitleManager : MonoBehaviour
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
+        soundManager.UnMuteBgm();
         m_gameBar.SetActive(false);
         m_mainMenu.SetActive(false);
         m_optionMenu.SetActive(false);
@@ -36,10 +39,12 @@ public class TitleManager : MonoBehaviour
         if (Input.anyKeyDown && m_guideText.activeSelf)
         {
             m_titleState = TitleState.Main;
+            soundManager.PlaySeByName("Select");
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && !m_guideText.activeSelf)
         {
             m_titleState = TitleState.None;
+            soundManager.PlaySeByName("Select");
         }
 
         switch (m_titleState)
@@ -84,24 +89,29 @@ public class TitleManager : MonoBehaviour
     }
     public void LoadGame()
     {
+        soundManager.PlaySeByName("GameStart");
         SceneManager.LoadScene(m_sceneDropdowm.captionText.text);
     }
 
     public void MainSelect()
     {
         m_titleState = TitleState.Main;
+        soundManager.PlaySeByName("Select");
     }
     public void OptionSelect()
     {
         m_titleState = TitleState.Option;
+        soundManager.PlaySeByName("Select");
     }
     public void AudioSelect()
     {
         m_titleState = TitleState.Audio;
+        soundManager.PlaySeByName("Select");
     }
 
     public void ExitGame()
     {
+        soundManager.PlaySeByName("Select");
         Application.Quit();
     }
 }

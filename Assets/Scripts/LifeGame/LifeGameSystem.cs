@@ -30,6 +30,7 @@ public class LifeGameSystem : MonoBehaviour
     int generationNum = 1;
     /// <summary> 再生中かどうかの状態 </summary>
     bool isPlayed = true;
+    SoundManager soundManager;
 
     private void Awake()
     {
@@ -38,6 +39,8 @@ public class LifeGameSystem : MonoBehaviour
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
+        soundManager.UnMuteBgm();
         lifecells = new LifeGameCell[m_columns, m_rows];
 
         ///セルを配置する。セルの状態も確率で決定する
@@ -86,12 +89,14 @@ public class LifeGameSystem : MonoBehaviour
     {
         if (isPlayed)
         {
+            soundManager.MuteBgm();
             isPlayed = false;
             m_playButtonText.text = "プレイ";
             m_playButtonText.color = Color.green;
         }
         else
         {
+            soundManager.UnMuteBgm();
             isPlayed = true;
             m_playButtonText.text = "ストップ";
             m_playButtonText.color = Color.red;
@@ -103,6 +108,7 @@ public class LifeGameSystem : MonoBehaviour
     /// </summary>
     public void OneAdvanceGeneration()
     {
+        soundManager.PlaySeByName("OneGene");
         LifeActivity();
         generationNum++;
     }

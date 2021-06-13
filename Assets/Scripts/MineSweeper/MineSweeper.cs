@@ -46,9 +46,14 @@ public class MineSweeper : MonoBehaviour
     int secondNum = 0;
     /// <summary> 分の数値 </summary>
     int minuteNum = 0;
+    SoundManager soundManager;
+    bool isDisplayed = false;
+
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
+        soundManager.UnMuteBgm();
         InGame = true;
         _mineCountS = _mineCount;
         flagNum = 0;
@@ -107,11 +112,13 @@ public class MineSweeper : MonoBehaviour
 
 
         ///ゲーム終了後
-        if (!InGame)
+        if (!InGame && !isDisplayed)
         {
+            soundManager.MuteBgm();
             ///開いていないcellと地雷の数が一緒ならクリア画面を表示
             if (_closeCellCount == _mineCount)
             {
+                soundManager.PlaySeByName("MineSweeped");
                 AllCellOpen();
                 _gameclearPanel.SetActive(true);
                 _clearTimeText.text = "クリアタイム：" + minuteNum.ToString("D2") + "：" + secondNum.ToString("D2");
@@ -119,9 +126,13 @@ public class MineSweeper : MonoBehaviour
             ///それ以外の時はゲームオーバー画面を表示
             else
             {
+                
+                Debug.Log("Called");
+                soundManager.PlaySeByName("Explosion");
                 AllCellOpen();
                 _gameoverPanel.SetActive(true);
             }
+            isDisplayed = true;
         }
     }
 

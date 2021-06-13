@@ -41,11 +41,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        //if (SceneManager.GetActiveScene().name == "Title")
-        //{
-        //    PlayBgmByName("Title");
-        //}
-        PlayBgmByName("Title");
+        if (SceneManager.GetActiveScene().name == "Title")
+        {
+            PlayBgmByName("Title");
+        }
     }
 
     void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
@@ -129,6 +128,16 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         m_bgmAudioSource.clip = null;
     }
 
+    public void UnMuteBgm()
+    {
+        if (m_bgmAudioSource.mute) m_bgmAudioSource.mute = false;
+    }
+
+    public void MuteBgm()
+    {
+        m_bgmAudioSource.mute = true;
+    }
+
     public void PlaySe(int index)
     {
         index = Mathf.Clamp(index, 0, m_ses.Length);
@@ -160,6 +169,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void SEVolChange()
     {
         m_seVolume = GameObject.Find("SESlider").GetComponent<Slider>().value;
+        PlaySeByName("Select");
         Debug.Log(m_seVolume);
     }
 }
