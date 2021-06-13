@@ -6,18 +6,29 @@ using UnityEngine.SceneManagement;
 
 public class MineSweeper : MonoBehaviour
 {
+    /// <summary> X座標の数値 </summary>
     [SerializeField] static int _columns = 10;
+    /// <summary> Y座標の数値 </summary>
     [SerializeField] static int _rows = 10;
+    /// <summary> Cellを表示するエリア </summary>
     [SerializeField] GridLayoutGroup _gridLayoutGroup = null;
+    /// <summary> CellのPrefab </summary>
     [SerializeField] Cell _cellPrefab = null;
+    /// <summary> ゲームオーバー時に表示するパネル </summary>
     [SerializeField] GameObject _gameoverPanel = null;
+    /// <summary> クリアした時に表示するパネル </summary>
     [SerializeField] GameObject _gameclearPanel = null;
-
+    /// <summary> 地雷の合計 </summary>
     [SerializeField] int _mineCount = 1;
+    /// <summary> Cellの周りにある地雷の数 </summary>
     public static int aroundMine = 0;
+    /// <summary> 全Cellの配列 </summary>
     public static Cell[,] _cells;
+    /// <summary> ゲーム中か否か </summary>
     public static bool InGame = true;
+    /// <summary> 開いていないCellの合計 </summary>
     public static int _closeCellCount;
+    /// <summary> 地雷の合計 </summary>
     public static int _mineCountS;
 
     void Start()
@@ -44,6 +55,7 @@ public class MineSweeper : MonoBehaviour
 
         _cells = new Cell[_rows, _columns];
 
+        ///Cellを配置する
         for (int i = 0; i < _rows; i++)
         {
             for (int n = 0; n < _columns; n++)
@@ -57,15 +69,19 @@ public class MineSweeper : MonoBehaviour
     }
     private void Update()
     {
+        ///開いていないcellと地雷の数が一緒ならゲーム終了
         if (_closeCellCount == _mineCount) InGame = false;
 
+        ///ゲーム終了後
         if (!InGame)
         {
+            ///開いていないcellと地雷の数が一緒ならクリア画面を表示
             if (_closeCellCount == _mineCount)
             {
                 AllCellOpen();
                 _gameclearPanel.SetActive(true);
             }
+            ///開いていないcellと地雷の数が一緒ならゲームオーバー画面を表示
             else
             {
                 AllCellOpen();
@@ -74,6 +90,10 @@ public class MineSweeper : MonoBehaviour
             
         }
     }
+
+    /// <summary>
+    /// 地雷を配置する
+    /// </summary>
     public static void SetMine()
     {
         for (var i = 0; i < _mineCountS;)
@@ -96,6 +116,9 @@ public class MineSweeper : MonoBehaviour
         StartCell();
     } 
     
+    /// <summary>
+    /// 全てのCellを開ける
+    /// </summary>
     public void AllCellOpen()
     {
         for (int i = 0; i < _rows; i++)
@@ -146,6 +169,10 @@ public class MineSweeper : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 開始時にCellの状態を更新する
+    /// </summary>
     public static void StartCell()
     {
         for (int i = 0; i < _rows; i++)
@@ -245,7 +272,12 @@ public class MineSweeper : MonoBehaviour
             }
         }
     }
-    public  static void CheckCells(Cell a)
+
+    /// <summary>
+    /// 選択したcellの周りのCellを調べる
+    /// </summary>
+    /// <param name="cell"> 選択したCell</param>
+    public  static void CheckCells(Cell cell)
     {
         bool isChecked = false;
 
@@ -254,7 +286,7 @@ public class MineSweeper : MonoBehaviour
             for (int n = 0; n < _columns; n++)
             {
                 
-                if (a.m_indexNum == _cells[n, i].m_indexNum && a.CellState == Cell.CellStates.None && a.isOpened)
+                if (cell.m_indexNum == _cells[n, i].m_indexNum && cell.CellState == Cell.CellStates.None && cell.isOpened)
                 {
                     isChecked = true;
                     if (n == 0 && i == 0)
@@ -331,6 +363,10 @@ public class MineSweeper : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sceneを再読み込みする
+    /// </summary>
+    /// <param name="sceneName"> Sceneの名前 </param>
     public void GameRetry(string sceneName)
     {
         InGame = true;

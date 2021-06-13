@@ -5,12 +5,19 @@ using UnityEngine.UI;
 
 public class Cell : MonoBehaviour
 {
+    /// <summary> Cellのステータスを表示するText </summary>
     [SerializeField] Text m_view = null;
+    /// <summary> </summary>
     [SerializeField] CellStates m_cellStates = CellStates.None;
+    /// <summary> </summary>
     [SerializeField] Image m_bg = null;
+    /// <summary> </summary>
     public int m_indexNum = 0;
+    /// <summary> </summary>
     public bool isOpened = false;
+    /// <summary> </summary>
     bool isFlaged = false;
+    /// <summary> </summary>
     public static bool isFirstSerected = true;
 
     public CellStates CellState
