@@ -11,7 +11,7 @@ public class Cell : MonoBehaviour
     [SerializeField] CellStates m_cellStates = CellStates.None;
     /// <summary> CellのImage　</summary>
     [SerializeField] Image m_bg = null;
-    /// <summary> Cellを探すためのIDナンバー </summary>
+    /// <summary> Cellを探す時用のNumber </summary>
     public int m_indexNum = 0;
     /// <summary> Cellの開閉状態 </summary>
     public bool isOpened = false;
