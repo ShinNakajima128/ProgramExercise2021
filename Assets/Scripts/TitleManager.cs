@@ -9,8 +9,9 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject m_mainMenu = null;
     [SerializeField] GameObject m_optionMenu = null;
     [SerializeField] GameObject m_AudioMenu = null;
+    [SerializeField] GameObject m_gameBar = null;
     [SerializeField] Dropdown m_sceneDropdowm = null;
-    [SerializeField] Text m_guideText = null;
+    [SerializeField] GameObject m_guideText = null;
     TitleState m_titleState = TitleState.None;
 
     enum TitleState
@@ -23,19 +24,19 @@ public class TitleManager : MonoBehaviour
 
     void Start()
     {
+        m_gameBar.SetActive(false);
         m_mainMenu.SetActive(false);
         m_optionMenu.SetActive(false);
         m_AudioMenu.SetActive(false);
-        m_sceneDropdowm.enabled = false;
     }
 
     void Update()
     {
-        if (Input.anyKeyDown && m_guideText.enabled)
+        if (Input.anyKeyDown && m_guideText.activeSelf)
         {
             m_titleState = TitleState.Main;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && !m_guideText.enabled)
+        else if (Input.GetKeyDown(KeyCode.Escape) && !m_guideText.activeSelf)
         {
             m_titleState = TitleState.None;
         }
@@ -43,23 +44,27 @@ public class TitleManager : MonoBehaviour
         switch (m_titleState)
         {
             case TitleState.None:
-                m_guideText.enabled = true;
+                m_guideText.SetActive(true);
+                m_gameBar.SetActive(false);
                 m_mainMenu.SetActive(false);
                 m_optionMenu.SetActive(false);
                 m_AudioMenu.SetActive(false);
                 break;
             case TitleState.Main:
-                m_guideText.enabled = false;
+                m_guideText.SetActive(false);
+                m_gameBar.SetActive(true);
                 m_mainMenu.SetActive(true);
                 m_optionMenu.SetActive(false);
                 m_AudioMenu.SetActive(false);
                 break;
             case TitleState.Option:
+                m_gameBar.SetActive(false);
                 m_mainMenu.SetActive(false);
                 m_optionMenu.SetActive(true);
                 m_AudioMenu.SetActive(false);
                 break;
             case TitleState.Audio:
+                m_gameBar.SetActive(false);
                 m_mainMenu.SetActive(false);
                 m_optionMenu.SetActive(false);
                 m_AudioMenu.SetActive(true);
@@ -82,5 +87,10 @@ public class TitleManager : MonoBehaviour
     public void AudioSelect()
     {
         m_titleState = TitleState.Audio;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
