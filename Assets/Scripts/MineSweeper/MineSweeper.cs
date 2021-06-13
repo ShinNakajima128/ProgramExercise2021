@@ -20,6 +20,14 @@ public class MineSweeper : MonoBehaviour
     [SerializeField] GameObject _gameclearPanel = null;
     /// <summary> 地雷の合計 </summary>
     [SerializeField] int _mineCount = 1;
+    /// <summary> 地雷の合計を表示するText </summary>
+    [SerializeField] Text _mineNumText = null;
+    /// <summary> 旗の合計を表示するText </summary>
+    [SerializeField] Text _flagNumText = null;
+    /// <summary> プレイ時間を表示するText </summary>
+    [SerializeField] Text _timerText = null;
+    /// <summary> クリアタイムを表示するText </summary>
+    [SerializeField] Text _clearTimeText = null;
     /// <summary> Cellの周りにある地雷の数 </summary>
     public static int aroundMine = 0;
     /// <summary> 全Cellの配列 </summary>
@@ -30,11 +38,20 @@ public class MineSweeper : MonoBehaviour
     public static int _closeCellCount;
     /// <summary> 地雷の合計 </summary>
     public static int _mineCountS;
+    /// <summary> 旗の数 </summary>
+    public static int flagNum = 0;
+    /// <summary> プレイ時間のタイマー </summary>
+    float m_timer;
+    /// <summary> 秒の数値 </summary>
+    int secondNum = 0;
+    /// <summary> 分の数値 </summary>
+    int minuteNum = 0;
 
     void Start()
     {
         InGame = true;
         _mineCountS = _mineCount;
+        flagNum = 0;
         _closeCellCount = _columns * _rows;
         _gameoverPanel.SetActive(false);
         _gameclearPanel.SetActive(false);
@@ -72,6 +89,23 @@ public class MineSweeper : MonoBehaviour
         ///開いていないcellと地雷の数が一緒ならゲーム終了
         if (_closeCellCount == _mineCount) InGame = false;
 
+        if (InGame)
+        {
+            m_timer += Time.deltaTime;
+            secondNum = (int)m_timer;
+        }
+        
+        if (m_timer >= 60.0f)
+        {
+            minuteNum++;
+            m_timer = 0f;
+        }
+
+        _mineNumText.text = "地雷の数：" + _mineCountS.ToString() + "個";
+        _flagNumText.text = "旗の数：" + flagNum.ToString() + "個";
+        _timerText.text = minuteNum.ToString("D2") + "：" + secondNum.ToString("D2");
+
+
         ///ゲーム終了後
         if (!InGame)
         {
@@ -80,14 +114,14 @@ public class MineSweeper : MonoBehaviour
             {
                 AllCellOpen();
                 _gameclearPanel.SetActive(true);
+                _clearTimeText.text = "クリアタイム：" + minuteNum.ToString("D2") + "：" + secondNum.ToString("D2");
             }
-            ///開いていないcellと地雷の数が一緒ならゲームオーバー画面を表示
+            ///それ以外の時はゲームオーバー画面を表示
             else
             {
                 AllCellOpen();
                 _gameoverPanel.SetActive(true);
             }
-            
         }
     }
 
@@ -112,7 +146,6 @@ public class MineSweeper : MonoBehaviour
                 i++;
             }
         }
-
         StartCell();
     } 
     
@@ -285,7 +318,6 @@ public class MineSweeper : MonoBehaviour
         {
             for (int n = 0; n < _columns; n++)
             {
-                
                 if (cell.m_indexNum == _cells[n, i].m_indexNum && cell.CellState == Cell.CellStates.None && cell.isOpened)
                 {
                     isChecked = true;
@@ -357,7 +389,6 @@ public class MineSweeper : MonoBehaviour
                         if (_cells[n - 1, i - 1].CellState != Cell.CellStates.Mine && !_cells[n - 1, i - 1].isOpened) _cells[n - 1, i - 1].Open();
                     }
                 }
-
                 if (isChecked) return;
             }
         }

@@ -91,6 +91,7 @@ public class Cell : MonoBehaviour
     /// </summary>
     public void Open()
     {
+        if (isFlagged) return;
         isOpened = true;
 
         if (isFirstSerected)
@@ -114,6 +115,7 @@ public class Cell : MonoBehaviour
     /// </summary>
     public void Flag()
     {
+        
         if (Input.GetMouseButtonDown(1))
         {
             if (isOpened) return;
@@ -124,14 +126,17 @@ public class Cell : MonoBehaviour
                 m_bg.color = new Color(0, 1, 1);
                 m_view.text = "";
                 isFlagged = false;
+                MineSweeper.flagNum--;
             }
             else
             {
+                if (MineSweeper.flagNum == MineSweeper._mineCountS) return;
                 Debug.Log("旗を立てました");
                 m_bg.color = new Color(1, 0, 0);
                 m_view.text = "M";
                 m_view.color = Color.yellow;
                 isFlagged = true;
+                MineSweeper.flagNum++;
             } 
         }
     }
