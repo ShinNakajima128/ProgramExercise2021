@@ -7,19 +7,22 @@ public class Cell : MonoBehaviour
 {
     /// <summary> Cellのステータスを表示するText </summary>
     [SerializeField] Text m_view = null;
-    /// <summary> </summary>
+    /// <summary> Cellのステータス </summary>
     [SerializeField] CellStates m_cellStates = CellStates.None;
-    /// <summary> </summary>
+    /// <summary> CellのImage　</summary>
     [SerializeField] Image m_bg = null;
-    /// <summary> </summary>
+    /// <summary> Cellを探すためのIDナンバー </summary>
     public int m_indexNum = 0;
-    /// <summary> </summary>
+    /// <summary> Cellの開閉状態 </summary>
     public bool isOpened = false;
-    /// <summary> </summary>
-    bool isFlaged = false;
-    /// <summary> </summary>
+    /// <summary> 旗が立っているかどうかの状態 </summary>
+    bool isFlagged = false;
+    /// <summary> 一番最初のCellを押したかどうかの状態 </summary>
     public static bool isFirstSerected = true;
 
+    /// <summary>
+    /// Cellのステータス
+    /// </summary>
     public CellStates CellState
     {
         get => m_cellStates;
@@ -54,6 +57,9 @@ public class Cell : MonoBehaviour
         OnCellStateChanged();
     }
 
+    /// <summary>
+    /// Cellのステータスを更新する
+    /// </summary>
     void OnCellStateChanged()
     {
         if (m_view == null) return;
@@ -80,6 +86,9 @@ public class Cell : MonoBehaviour
         }    
     }
 
+    /// <summary>
+    /// Cellを開ける
+    /// </summary>
     public void Open()
     {
         isOpened = true;
@@ -100,18 +109,21 @@ public class Cell : MonoBehaviour
         m_bg.color = new Color(1, 1, 1);
     }
 
+    /// <summary>
+    /// 旗を立てる、または除去する
+    /// </summary>
     public void Flag()
     {
         if (Input.GetMouseButtonDown(1))
         {
             if (isOpened) return;
 
-            if (isFlaged)
+            if (isFlagged)
             {
                 Debug.Log("旗を取り除きました");
                 m_bg.color = new Color(0, 1, 1);
                 m_view.text = "";
-                isFlaged = false;
+                isFlagged = false;
             }
             else
             {
@@ -119,7 +131,7 @@ public class Cell : MonoBehaviour
                 m_bg.color = new Color(1, 0, 0);
                 m_view.text = "M";
                 m_view.color = Color.yellow;
-                isFlaged = true;
+                isFlagged = true;
             } 
         }
     }
