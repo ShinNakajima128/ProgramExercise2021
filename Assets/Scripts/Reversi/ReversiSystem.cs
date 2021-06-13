@@ -83,7 +83,7 @@ public class ReversiSystem : MonoBehaviour
                     PieceNumCheck();
                     isChecked = false;
                     Debug.Log("白のチェック完了");
-                    m_turnText.text = "白のターン";
+                    m_turnText.text = "<color=#FFFFFF>白</color>" + "のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
                     m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
                     if (PlaceableList.Count == 0) { m_turnState = TurnState.BlackTurn; isChecked = true; }
@@ -96,7 +96,7 @@ public class ReversiSystem : MonoBehaviour
                     PieceNumCheck();
                     isChecked = false;
                     Debug.Log("黒のチェック完了");
-                    m_turnText.text = "黒のターン";
+                    m_turnText.text = "<color=#4C4C4C>黒</color>" + "のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
                     m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";  
                     if (PlaceableList.Count == 0) { m_turnState = TurnState.WhiteTurn; isChecked = true; }
