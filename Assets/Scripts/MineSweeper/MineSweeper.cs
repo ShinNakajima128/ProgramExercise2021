@@ -121,7 +121,7 @@ public class MineSweeper : MonoBehaviour
                 soundManager.PlaySeByName("MineSweeped");
                 AllCellOpen();
                 _gameclearPanel.SetActive(true);
-                _clearTimeText.text = "クリアタイム：" + minuteNum.ToString("D2") + "：" + secondNum.ToString("D2");
+                _clearTimeText.text = "クリアタイム　" + minuteNum.ToString("D2") + "：" + secondNum.ToString("D2");
             }
             ///それ以外の時はゲームオーバー画面を表示
             else

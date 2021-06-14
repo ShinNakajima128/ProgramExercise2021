@@ -114,4 +114,9 @@ public class TitleManager : MonoBehaviour
         soundManager.PlaySeByName("Select");
         Application.Quit();
     }
+
+    public void SelectGameSE()
+    {
+        soundManager.PlaySeByName("Select");
+    }
 }

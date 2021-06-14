@@ -19,6 +19,7 @@ public class Cell : MonoBehaviour
     bool isFlagged = false;
     /// <summary> 一番最初のCellを押したかどうかの状態 </summary>
     public static bool isFirstSerected = true;
+    SoundManager soundManager;
 
     /// <summary>
     /// Cellのステータス
@@ -49,6 +50,7 @@ public class Cell : MonoBehaviour
 
     private void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
         m_bg.color = new Color(0, 1, 1);
     }
 
@@ -103,11 +105,18 @@ public class Cell : MonoBehaviour
         {
             if (CellState == CellStates.Mine) { MineSweeper.InGame = false; }
         }
-
         MineSweeper._closeCellCount--;
         MineSweeper.CheckCells(this);
         OnCellStateChanged();
         m_bg.color = new Color(1, 1, 1);
+    }
+
+    public void OpenSE()
+    {
+        if (Input.GetMouseButtonDown(0) && CellState != CellStates.Mine && !isFlagged)
+        {
+            soundManager.PlaySeByName("Open");
+        }
     }
 
     /// <summary>
@@ -122,6 +131,7 @@ public class Cell : MonoBehaviour
 
             if (isFlagged)
             {
+                soundManager.PlaySeByName("FlagCancel");
                 Debug.Log("旗を取り除きました");
                 m_bg.color = new Color(0, 1, 1);
                 m_view.text = "";
@@ -130,6 +140,7 @@ public class Cell : MonoBehaviour
             }
             else
             {
+                soundManager.PlaySeByName("FlagOn");
                 if (MineSweeper.flagNum == MineSweeper._mineCountS) return;
                 Debug.Log("旗を立てました");
                 m_bg.color = new Color(1, 0, 0);
