@@ -13,6 +13,7 @@ public class ReversiCell : MonoBehaviour
     public int m_cell_X = 0;
     public int m_cell_Y = 0;
     public Animator m_anim;
+    SoundManager soundManager;
 
     public enum ReversiCellStates
     {
@@ -32,6 +33,7 @@ public class ReversiCell : MonoBehaviour
 
     void Start()
     {
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
         m_anim = GetComponent<Animator>();
     }
 
@@ -109,5 +111,14 @@ public class ReversiCell : MonoBehaviour
             }
         } 
         ReversiSystem.PlaceableList.Clear();
+    }
+
+    public void TurnOverSE()
+    {
+        soundManager.PlaySeByName("Turnover");
+    }
+    public void LandingSE()
+    {
+        soundManager.PlaySeByName("Landing");
     }
 }

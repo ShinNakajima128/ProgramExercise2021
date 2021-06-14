@@ -384,4 +384,20 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: TurnOverSE
+    data: 
+    objectReferenceParameter: {fileID: 7332275779900459599, guid: 88c95fcc6c4a93c48b9066d2ee7de901,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.45
+    functionName: LandingSE
+    data: 
+    objectReferenceParameter: {fileID: 7332275779900459599, guid: 88c95fcc6c4a93c48b9066d2ee7de901,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
