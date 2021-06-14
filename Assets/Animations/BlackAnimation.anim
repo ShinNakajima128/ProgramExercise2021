@@ -393,7 +393,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.48333332
+  - time: 0.46666667
     functionName: LandingSE
     data: 
     objectReferenceParameter: {fileID: 7332275779900459599, guid: 88c95fcc6c4a93c48b9066d2ee7de901,
