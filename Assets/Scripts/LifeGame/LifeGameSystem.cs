@@ -29,12 +29,14 @@ public class LifeGameSystem : MonoBehaviour
     /// <summary> 世代の数値 </summary>
     int generationNum = 1;
     /// <summary> 再生中かどうかの状態 </summary>
-    bool isPlayed = true;
+    public static bool isPlayed = true;
     SoundManager soundManager;
+    LifeGameCell clickedCell;
 
     private void Awake()
     {
         allCells = m_columns * m_rows;
+        isPlayed = true;
     }
 
     void Start()
@@ -50,7 +52,7 @@ public class LifeGameSystem : MonoBehaviour
             {
                 var cell = Instantiate(m_lifeGameCellPrefab);
                 lifecells[n, i] = cell;
-                cell.transform.position = new Vector3(-0.5f + n, -0.5f + i, 0);
+                cell.transform.position = new Vector3(-0.8f + n, -0.8f + i, 0);
                 cellstateNum = Random.Range(0, 4);
                 cell.cellNum = (i * 10) + n;
 
@@ -76,8 +78,34 @@ public class LifeGameSystem : MonoBehaviour
             generationNum++;
         }
 
-        /// 生存しているセルの数のTextを更新
-        if (m_aliveCells != null) m_aliveCells.text = "生存数" + allCells.ToString() + "個";
+
+        if (Input.GetMouseButtonDown(0) && !isPlayed)
+        {
+            clickedCell = null;
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                clickedCell = hit.collider.gameObject.GetComponent<LifeGameCell>();
+                
+            }
+
+            if (clickedCell == null) return;
+
+            if (clickedCell.CellState == LifeGameCell.CellStates.dead)
+            {
+                clickedCell.CellState = LifeGameCell.CellStates.alive;
+            }
+            else
+            {
+                clickedCell.CellState = LifeGameCell.CellStates.dead;
+            }
+        }
+
+            /// 生存しているセルの数のTextを更新
+            if (m_aliveCells != null) m_aliveCells.text = "生存数" + allCells.ToString() + "個";
         /// 世代を表示するTextを更新
         if (m_generationText != null) m_generationText.text = generationNum.ToString() + "世代";
     }
@@ -110,6 +138,13 @@ public class LifeGameSystem : MonoBehaviour
     {
         soundManager.PlaySeByName("OneGene");
         LifeActivity();
+        for (int i = 0; i < m_rows; i++)
+        {
+            for (int n = 0; n < m_columns; n++)
+            {
+                lifecells[n, i].CellStateChange();
+            }
+        }
         generationNum++;
     }
 

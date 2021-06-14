@@ -14,7 +14,7 @@ public class LifeGameCell : MonoBehaviour
     public int cellNum = 0;
     /// <summary> 周りの生きているセルの数 </summary>
     public int neighborCells = 0;
-
+    
     public CellStates CellState
     {
         get => m_cellStates;
@@ -32,7 +32,7 @@ public class LifeGameCell : MonoBehaviour
 
     void LateUpdate()
     {
-        CellStateChange();
+        if (LifeGameSystem.isPlayed) CellStateChange();
 
         switch (m_cellStates)
         {
@@ -50,7 +50,7 @@ public class LifeGameCell : MonoBehaviour
     /// <summary>
     /// セルの状態を更新する
     /// </summary>
-     void CellStateChange()
+    public void CellStateChange()
     {
         ///自分は生きている&周りの生きているセルが1つ以下
         if (CellState == CellStates.alive && neighborCells <= 1)
@@ -87,4 +87,6 @@ public class LifeGameCell : MonoBehaviour
             CellState = CellStates.dead;
         }
     }
+
+   
 }

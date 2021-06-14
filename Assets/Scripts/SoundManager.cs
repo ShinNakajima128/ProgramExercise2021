@@ -45,6 +45,22 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         {
             PlayBgmByName("Title");
         }
+        else if (SceneManager.GetActiveScene().name == "MineSweeper")
+        {
+            PlayBgmByName("MineSweeper");
+        }
+        else if (SceneManager.GetActiveScene().name == "LifeGame")
+        {
+            PlayBgmByName("LifeGame");
+        }
+        else if (SceneManager.GetActiveScene().name == "Bingo")
+        {
+            PlayBgmByName("Bingo");
+        }
+        else if (SceneManager.GetActiveScene().name == "Reversi")
+        {
+            PlayBgmByName("Reversi");
+        }
     }
 
     void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
