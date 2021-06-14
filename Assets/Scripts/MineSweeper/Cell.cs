@@ -51,7 +51,7 @@ public class Cell : MonoBehaviour
     private void Start()
     {
         soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
-        m_bg.color = new Color(0, 1, 1);
+        m_bg.color = new Color(0.02f, 0.84f, 0.84f);
     }
 
     private void OnValidate()

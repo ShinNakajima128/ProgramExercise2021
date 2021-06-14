@@ -11,6 +11,12 @@ public class BingoCell : MonoBehaviour
     public bool isCellOpened = false;
     public int CellNum = 0;
 
+    public Image BG
+    {
+        get { return m_bg; }
+        set { m_bg = value; }
+    }
+
     public BingoCellStates BingoCellState
     {
         get => bingoCellState;
@@ -28,7 +34,6 @@ public class BingoCell : MonoBehaviour
 
     void Start()
     {
-        m_bg.color = new Color(0.3f, 0.3f, 0.3f);
         if (CellNum == 0)
         {
             m_view.text = "Bingo";
@@ -42,10 +47,5 @@ public class BingoCell : MonoBehaviour
     void Update()
     {
         if (m_view == null) return;
-
-        if (isCellOpened)
-        {
-            m_bg.color = new Color(1, 0, 0);
-        }
     }
 }

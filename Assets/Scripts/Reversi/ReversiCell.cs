@@ -74,12 +74,8 @@ public class ReversiCell : MonoBehaviour
         Debug.Log(m_cell_X + "," + m_cell_Y);
         if (ReversiSystem.reversiCells[m_cell_X, m_cell_Y].isWhitePlaceable)
         {
-            isWhitePlaceable = false;
-            ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.White;
-            ReversiSystem.m_turnState = ReversiSystem.TurnState.BlackTurn;
-            ReversiSystem.AddTurnOverCells(m_cell_X, m_cell_Y, ReversiCellState);
-            TurnOver();
-            ReversiSystem.isChecked = true;
+            StartCoroutine(WhitePut());
+           
         }
         else if (ReversiSystem.reversiCells[m_cell_X, m_cell_Y].isBlackPlaceable)
         {
@@ -92,12 +88,26 @@ public class ReversiCell : MonoBehaviour
         }
     }
 
+    IEnumerator WhitePut()
+    {
+        ReversiSystem.reversiCells[m_cell_X, m_cell_Y].ReversiCellState = ReversiCellStates.White;
+        ReversiSystem.AddTurnOverCells(m_cell_X, m_cell_Y, ReversiCellState);
+        TurnOver();
+
+        yield return new WaitForSeconds(1.0f);
+
+        isWhitePlaceable = false;
+        isBlackPlaceable = false;
+        ReversiSystem.m_turnState = ReversiSystem.TurnState.BlackTurn;
+        ReversiSystem.isChecked = true;
+    }
     public void TurnOver()
     {
         if (ReversiSystem.m_turnState == ReversiSystem.TurnState.WhiteTurn)
         {
             foreach (var cell in ReversiSystem.PlaceableList)
             {
+                if (cell.m_cell_X == m_cell_X && cell.m_cell_Y == m_cell_Y) continue;
                 cell.isWhitePlaceable = false;
                 cell.isBlackPlaceable = false;
             }

@@ -79,7 +79,12 @@ public class BingoSystem : MonoBehaviour
                 if (i == 2 && n == 2)
                 {
                     bingocells[n, i].isCellOpened = true;
+                    bingocells[n, i].BG.color = new Color(0.93f, 0.58f, 0.25f);
                     continue;
+                }
+                else
+                {
+                    bingocells[n, i].BG.color = new Color(0.44f, 0.44f, 0.44f);
                 }
                 cell.CellNum = bingoCellElements[i * m_rows + n];
             }
@@ -151,6 +156,7 @@ public class BingoSystem : MonoBehaviour
                 if (bingocells[n, i].CellNum == lotnum)
                 {
                     bingocells[n, i].isCellOpened = true;
+                    bingocells[n, i].BG.color = new Color(0.93f, 0.58f, 0.25f);
                 }
             }
         }

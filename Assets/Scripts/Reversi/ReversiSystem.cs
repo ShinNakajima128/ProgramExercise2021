@@ -28,6 +28,7 @@ public class ReversiSystem : MonoBehaviour
     public static List<ReversiCell> PlaceableList = new List<ReversiCell>();
     int whiteCellTotal = 2;
     int blackCellTotal = 2;
+    int continuousPassTurn = 0;
     SoundManager soundManager;
     bool isDisplayed = false;
 
@@ -42,15 +43,8 @@ public class ReversiSystem : MonoBehaviour
     {
         soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
         soundManager.UnMuteBgm();
-        int r = Random.Range(0, 2);
-        if (r == 0)
-        {
-            m_turnState = TurnState.WhiteTurn;
-        }
-        else
-        {
-            m_turnState = TurnState.BlackTurn;
-        }
+        m_turnState = TurnState.WhiteTurn;
+        isChecked = true;
 
         m_winnerText.enabled = false;
         m_FinishedPanel.SetActive(false);
@@ -73,7 +67,7 @@ public class ReversiSystem : MonoBehaviour
 
     void Update()
     {
-        if (whiteCellTotal + blackCellTotal == m_columns * m_rows || whiteCellTotal == 0 || blackCellTotal == 0)
+        if (whiteCellTotal + blackCellTotal == m_columns * m_rows || whiteCellTotal == 0 || blackCellTotal == 0 || continuousPassTurn == 2)
         {
             m_turnState = TurnState.EndGame;
         }
@@ -90,7 +84,17 @@ public class ReversiSystem : MonoBehaviour
                     m_turnText.text = "<color=#FFFFFF>白</color>" + "のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
                     m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
-                    if (PlaceableList.Count == 0) { m_turnState = TurnState.BlackTurn; isChecked = true; }
+
+                    if (PlaceableList.Count == 0) 
+                    { 
+                        m_turnState = TurnState.BlackTurn; 
+                        isChecked = true;
+                        continuousPassTurn++;
+                    }
+                    else
+                    {
+                        continuousPassTurn = 0;
+                    }
                 }
                 break;
             case TurnState.BlackTurn:
@@ -102,8 +106,19 @@ public class ReversiSystem : MonoBehaviour
                     Debug.Log("黒のチェック完了");
                     m_turnText.text = "<color=#4C4C4C>黒</color>" + "のターン";
                     m_whiteCellNumText.text = "白の数：" + whiteCellTotal.ToString() + "個";
-                    m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";  
-                    if (PlaceableList.Count == 0) { m_turnState = TurnState.WhiteTurn; isChecked = true; }
+                    m_blackCellNumText.text = "黒の数：" + blackCellTotal.ToString() + "個";
+
+                    if (PlaceableList.Count == 0) 
+                    { 
+                        m_turnState = TurnState.WhiteTurn; 
+                        isChecked = true;
+                        continuousPassTurn++;
+                    }
+                    else
+                    {
+                        BlackAi();
+                        continuousPassTurn = 0;
+                    }       
                 }
                 break;
             case TurnState.EndGame:
@@ -131,6 +146,32 @@ public class ReversiSystem : MonoBehaviour
                 break;
         }
     }
+
+    public void BlackAi()
+    {
+        var selectCell = PlaceableList[Random.Range(0, PlaceableList.Count)];
+        StartCoroutine(BlackAiThinking(selectCell.m_cell_X, selectCell.m_cell_Y, selectCell));
+    }
+
+    IEnumerator BlackAiThinking(int cell_X, int cell_Y, ReversiCell cell)
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        cell.ReversiCellState = ReversiCell.ReversiCellStates.Black;
+        AddTurnOverCells(cell_X, cell_Y, cell.ReversiCellState);
+        foreach (var item in PlaceableList)
+        {
+            if (item.m_cell_X == cell.m_cell_X && item.m_cell_Y == cell.m_cell_Y) continue;
+            item.isWhitePlaceable = false;
+            item.isBlackPlaceable = false;
+        }
+        yield return new WaitForSeconds(1.0f);
+
+        cell.isWhitePlaceable = false;
+        cell.isBlackPlaceable = false;
+        m_turnState = TurnState.WhiteTurn;
+        isChecked = true;
+    } 
 
     public void WhiteThinking()
     {
