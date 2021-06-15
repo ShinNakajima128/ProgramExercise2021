@@ -17,17 +17,29 @@ public class ReversiSystem : MonoBehaviour
     public static ReversiCell[,] reversiCells = new ReversiCell[m_columns, m_rows];
     public static TurnState m_turnState = TurnState.WhiteTurn;
     public static bool isChecked = true;
+    /// <summary> 左下方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> LBturnOverList = new List<ReversiCell>();
+    /// <summary> 左方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> LturnOverList = new List<ReversiCell>();
+    /// <summary> 左上方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> LTturnOverList = new List<ReversiCell>();
+    /// <summary> 右下方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> RBturnOverList = new List<ReversiCell>();
+    /// <summary> 右の方面ひっくり返せるCellのList </summary>
     public static List<ReversiCell> RturnOverList = new List<ReversiCell>();
+    /// <summary> 右上方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> RTturnOverList = new List<ReversiCell>();
+    /// <summary> 下方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> BturnOverList = new List<ReversiCell>();
+    /// <summary> 上方面のひっくり返せるCellのList </summary>
     public static List<ReversiCell> TturnOverList = new List<ReversiCell>();
+    /// <summary> 置ける場所のList </summary>
     public static List<ReversiCell> PlaceableList = new List<ReversiCell>();
+    /// <summary> 白の合計数 </summary>
     int whiteCellTotal = 2;
+    /// <summary> 黒の合計数 </summary>
     int blackCellTotal = 2;
+    /// <summary> 順番が飛ばされた回数 </summary>
     int continuousPassTurn = 0;
     SoundManager soundManager;
     bool isDisplayed = false;

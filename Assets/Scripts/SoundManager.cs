@@ -63,6 +63,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
+    /// <summary>
+    /// Sceneが遷移した時にBGMを変更する
+    /// </summary>
+    /// <param name="nextScene">遷移後のScene</param>
+    /// <param name="mode"></param>
     void OnSceneLoaded(Scene nextScene, LoadSceneMode mode)
     {
         switch (SceneManager.GetActiveScene().name)
@@ -84,6 +89,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 break;
         }
     }
+
     void Update()
     {
         m_bgmAudioSource.volume = m_bgmVolume * m_masterVolume;
@@ -123,6 +129,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             return 0;
         }
     }
+    /// <summary>
+    /// BGMを再生する
+    /// </summary>
+    /// <param name="index"> BGMの添え字番号 </param>
     public void PlayBgm(int index)
     {
         index = Mathf.Clamp(index, 0, m_bgms.Length);
@@ -133,22 +143,35 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         m_bgmAudioSource.Play();
     }
 
+    /// <summary>
+    /// BGM名を入力し、BGMを再生する
+    /// </summary>
+    /// <param name="name"> BGMの名前 </param>
     public void PlayBgmByName(string name)
     {
         PlayBgm(GetBgmIndex(name));
     }
 
+    /// <summary>
+    /// BGMを止める
+    /// </summary>
     public void StopBgm()
     {
         m_bgmAudioSource.Stop();
         m_bgmAudioSource.clip = null;
     }
 
+    /// <summary>
+    /// BGMのミュートを解除する
+    /// </summary>
     public void UnMuteBgm()
     {
         if (m_bgmAudioSource.mute) m_bgmAudioSource.mute = false;
     }
 
+    /// <summary>
+    /// BGMをミュートする
+    /// </summary>
     public void MuteBgm()
     {
         m_bgmAudioSource.mute = true;

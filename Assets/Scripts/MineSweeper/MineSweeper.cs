@@ -48,6 +48,7 @@ public class MineSweeper : MonoBehaviour
     int minuteNum = 0;
     SoundManager soundManager;
     bool isDisplayed = false;
+    [SerializeField] bool debug = false;
 
 
     void Start()
@@ -91,6 +92,12 @@ public class MineSweeper : MonoBehaviour
     }
     private void Update()
     {
+        if (debug)
+        {
+            InGame = false;
+            _closeCellCount = _mineCount;
+        }
+
         ///開いていないcellと地雷の数が一緒ならゲーム終了
         if (_closeCellCount == _mineCount) InGame = false;
 
