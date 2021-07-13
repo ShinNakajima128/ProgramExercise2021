@@ -14,6 +14,7 @@ public class ReversiSystem : MonoBehaviour
     [SerializeField] Text m_blackCellNumText = null;
     [SerializeField] Text m_winnerText = null;
     [SerializeField] GameObject m_FinishedPanel = null;
+    [SerializeField] GameObject m_interruptPanel = null;
     public static ReversiCell[,] reversiCells = new ReversiCell[m_columns, m_rows];
     public static TurnState m_turnState = TurnState.WhiteTurn;
     public static bool isChecked = true;
@@ -43,6 +44,7 @@ public class ReversiSystem : MonoBehaviour
     int continuousPassTurn = 0;
     SoundManager soundManager;
     bool isDisplayed = false;
+    bool isOpenMenu = false;
 
     public enum TurnState
     {
@@ -55,11 +57,12 @@ public class ReversiSystem : MonoBehaviour
     {
         soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
         soundManager.UnMuteBgm();
-        m_turnState = TurnState.WhiteTurn;
+        m_turnState = TurnState.BlackTurn;
         isChecked = true;
 
         m_winnerText.enabled = false;
         m_FinishedPanel.SetActive(false);
+        m_interruptPanel.SetActive(false);
 
         for (int i = 0; i < m_rows; i++)
         {
@@ -156,6 +159,20 @@ public class ReversiSystem : MonoBehaviour
                     isDisplayed = true;
                 }
                 break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isOpenMenu)
+            {
+                m_interruptPanel.SetActive(true);
+                isOpenMenu = true;
+            }
+            else
+            {
+                m_interruptPanel.SetActive(false);
+                isOpenMenu = false;
+            }
         }
     }
 
